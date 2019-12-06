@@ -121,19 +121,21 @@
     {
       "comment": "NA Channel",
       "reacts_required_channel": 652240979444629505,
-      "delete_no_reacts_delay_seconds": 10
+      "delete_no_reacts_delay_seconds": 10,
+      "protect_regex": "[ub]{0,1}[a-d]"
     },
     {
       "comment": "EU Channel",
       "reacts_required_channel": 652241014509142046,
-      "delete_no_reacts_delay_seconds": 10
+      "delete_no_reacts_delay_seconds": 10,
+      "protect_regex": "[ub]{0,1}[a-d]"
     }
   ],
 
   "delete_match_regex": [
     {
       "delete_channel_id": 652240932997169171,
-      "regex_match_for_no_delete": "lobb"
+      "protect_regex": "lobb"
     }
   ]
 }

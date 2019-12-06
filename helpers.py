@@ -14,7 +14,8 @@ class Config:
             raise SystemExit("Could not find config")
         self.token = self.config_object["token"]
         self.bot_prefix = self.config_object["bot_prefix"]
-        self.debug = self.config_object["debug"]
+        self.bot_log_webhook = self.config_object["bot_log_webhook"]
+        self.bot_log_name = self.config_object["bot_log_name"]
         self.clean_old_messages = self.config_object["clean_old_messages"]
         self.ping_for_messages = self.config_object["ping_for_messages"]
         self.disable_reacts = self.config_object["disable_reacts"]

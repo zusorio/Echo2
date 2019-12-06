@@ -3,6 +3,7 @@ import discord
 import asyncio
 from discord.ext import commands
 import helpers
+import re
 
 
 class ReactsRequired(commands.Cog):
@@ -16,7 +17,7 @@ class ReactsRequired(commands.Cog):
     async def on_message(self, message: discord.Message):
         if message.author != self.bot.user:
             for channel in self.config.reacts_required:
-                if message.channel.id == channel["reacts_required_channel"]:
+                if message.channel.id == channel["reacts_required_channel"] and not re.search(channel["protect_regex"], message.content, flags=re.IGNORECASE):
                     try:
                         await self.bot.wait_for('reaction_add', timeout=channel["delete_no_reacts_delay_seconds"])
                     except asyncio.TimeoutError:

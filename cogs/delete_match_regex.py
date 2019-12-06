@@ -17,8 +17,8 @@ class DeleteMatchRegEx(commands.Cog):
         if message.author != self.bot.user:
             for channel in self.config.delete_match_regex:
                 if message.channel.id == channel["delete_channel_id"]:
-                    if not re.match(channel["regex_match_for_no_delete"], message.content, flags=re.IGNORECASE):
-                        helpers.log_message_deletes([message], f"DeleteMatchRegEx {message.channel.name} {channel['regex_match_for_no_delete']}", self.log)
+                    if not re.search(channel["protect_regex"], message.content, flags=re.IGNORECASE):
+                        helpers.log_message_deletes([message], f"DeleteMatchRegEx {message.channel.name} {channel['protect_regex']}", self.log)
                         await message.delete()
                         await message.author.send("Your message was deleted! Please only use this channel to list lobbies!\n"
                                                   "Use the format described in the channel to make sure your message doesn't get deleted!")

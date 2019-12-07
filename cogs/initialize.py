@@ -19,6 +19,8 @@ def get_safe_config(config: helpers.Config):
         else:
             output_messages.append(current_message)
             current_message = ""
+    if current_message != "":
+        output_messages.append(current_message)
     return output_messages
 
 

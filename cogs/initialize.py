@@ -6,6 +6,11 @@ import pprint
 
 
 def get_safe_config(config: helpers.Config):
+    """
+    Get's the config with info redacted split into 1500 character chunks
+    :param config: The config object
+    :return: Config split into 1500 character chunks
+    """
     scrubbed_config = config.config_object
     scrubbed_config["token"] = "REDACTED"
     scrubbed_config["bot_log_webhook"] = "REDACTED"

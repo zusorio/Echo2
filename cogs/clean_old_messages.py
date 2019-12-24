@@ -6,6 +6,9 @@ import helpers
 
 
 class CleanOldMessages(commands.Cog):
+    """
+    Deletes messages that have a certain age
+    """
     def __init__(self, bot: commands.Bot, config: helpers.Config, log: logging.Logger):
         self.bot = bot
         self.config = config

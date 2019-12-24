@@ -8,6 +8,7 @@ import pytz
 
 
 async def send_ping(channel: discord.TextChannel, role: discord.Role, user: discord.Member, message):
+    # Make unofficials pingable, send the embed and ping then undo the pingable.
     await role.edit(reason="Ping Unofficials", mentionable=True)
     await channel.send(role.mention)
     embed = discord.Embed(title=f"{user.display_name} said:", description=message)

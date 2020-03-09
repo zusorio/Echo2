@@ -1,0 +1,175 @@
+{
+  "token": "redacted",
+  "bot_prefix": "%",
+  "debug": true,
+  "bot_log_webhook": "redacted",
+  "bot_log_name": "PugHelpBot Logs",
+  "clean_old_messages": [
+    {
+      "comment": "NA Channel LFP",
+      "channel_id": 506248740911317024,
+      "delete_minimum_age_seconds_comment": "10800 seconds = 3 hours",
+      "delete_minimum_age_seconds": 10800,
+      "delete_ignore_messages": [
+        514460657026990081,
+        585640740588224531
+      ]
+    },
+    {
+      "comment": "EU Channel LFP",
+      "channel_id": 508713705580527628,
+      "delete_minimum_age_seconds_comment": "10800 seconds = 3 hours",
+      "delete_minimum_age_seconds": 10800,
+      "delete_ignore_messages": [
+        514418981193383937,
+        585640726876913678
+      ]
+    },
+    {
+      "comment": "Unofficial Lobbies Channel",
+      "channel_id": 506604689307992074,
+      "delete_minimum_age_seconds_comment": "10800 seconds = 3 hours",
+      "delete_minimum_age_seconds": 10800,
+      "delete_ignore_messages": [
+        506604933055774720
+      ]
+    },
+    {
+      "comment": "Ping Setup Channel",
+      "channel_id": 514887894532358144,
+      "delete_minimum_age_seconds_comment": "10800 seconds = 3 hours",
+      "delete_minimum_age_seconds": 10800,
+      "delete_ignore_messages": [
+        608737850783039550
+      ]
+    }
+  ],
+
+  "ping_for_messages": [
+    {
+      "comment": "NA Channel LFP",
+      "channel_id": 506248740911317024,
+      "ping_required_reacts": 12,
+      "ping_ignore_messages": [
+        514460657026990081,
+        585640740588224531
+      ]
+    },
+    {
+      "comment": "EU Channel LFP",
+      "channel_id": 508713705580527628,
+      "ping_required_reacts": 12,
+      "ping_ignored_messages": [
+        514418981193383937,
+        585640726876913678
+      ]
+    }
+  ],
+
+  "disable_reacts": [
+    {
+      "comment": "NA Channel LFP explanation post",
+      "channel_id": 506248740911317024,
+      "message_id": 514460657026990081,
+      "exceptions": [
+        417184709508857866
+      ]
+    },
+    {
+      "comment": "NA Channel LFP Echo explanation post",
+      "channel_id": 506248740911317024,
+      "message_id": 585640740588224531,
+      "exceptions": []
+    },
+    {
+      "comment": "EU Channel LFP explanation post",
+      "channel_id": 508713705580527628,
+      "message_id": 514418981193383937,
+      "exceptions": [
+        417184709508857866
+      ]
+    },
+    {
+      "comment": "EU Channel LFP Echo explanation post",
+      "channel_id": 508713705580527628,
+      "message_id": 585640726876913678,
+      "exceptions": []
+    }
+  ],
+
+  "vet_ping_unofficials": [
+    {
+      "region_name": "na",
+      "command_channel_id": 514887894532358144,
+      "ping_channel_id": 506248740911317024,
+      "ping_role_id": 504040832102432820,
+      "ping_cooldown_seconds_comment": "7200 seconds = 2 hours",
+      "ping_cooldown_seconds": 7200,
+      "timezone_name": "America/Los_Angeles",
+      "start_ping_allow_utc": [12, 0],
+      "end_ping_allow_utc": [23, 59]
+    },
+    {
+      "region_name": "eu",
+      "command_channel_id": 514887894532358144,
+      "ping_channel_id": 508713705580527628,
+      "ping_role_id": 504040832102432820,
+      "ping_cooldown_seconds_comment": "7200 seconds = 2 hours",
+      "ping_cooldown_seconds": 7200,
+      "timezone_name": "America/Los_Angeles",
+      "start_ping_allow_utc": [12, 0],
+      "end_ping_allow_utc": [23, 59]
+    }
+  ],
+
+  "purge_channel": [
+    {
+      "command_channel_id": 505573495028056064,
+      "purge_channel_alias": "na",
+      "purge_channel_id": 506248740911317024,
+      "purge_ignore_messages": [
+        514460657026990081,
+        585640740588224531
+      ]
+    },
+    {
+      "command_channel_id": 505573495028056064,
+      "purge_channel_alias": "eu",
+      "purge_channel_id": 508713705580527628,
+      "purge_ignore_messages": [
+        514418981193383937,
+        585640726876913678
+      ]
+    },
+    {
+      "command_channel_id": 505573495028056064,
+      "purge_channel_alias": "lobbies",
+      "purge_channel_id": 506604689307992074,
+      "purge_ignore_messages": [
+        506604933055774720
+      ]
+    }
+  ],
+
+  "reacts_required": [
+    {
+      "comment": "NA Channel LFP",
+      "reacts_required_channel": 506248740911317024,
+      "delete_no_reacts_delay_seconds": 25,
+      "protect_regex": "[uc]{0,1}[a-d]"
+    },
+    {
+      "comment": "EU Channel LFP",
+      "reacts_required_channel": 508713705580527628,
+      "delete_no_reacts_delay_seconds": 25,
+      "protect_regex": "[uc]{0,1}[a-d]"
+    }
+  ],
+
+  "delete_match_regex": [
+    {
+      "delete_channel_id": 50660468930799207,
+      "protect_regex": "lobb"
+    }
+  ]
+}

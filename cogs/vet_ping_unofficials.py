@@ -56,6 +56,7 @@ class VetPingUnofficials(commands.Cog):
                 if len(errors) == 0:
                     await ctx.message.add_reaction("👍")
                     await send_ping(ping_target_channel, ping_target_role, ctx.author, message_for_ping)
+                    self.log.info(f"{ctx.author.display_name} pinged unofficials in {region_name}")
                 else:
                     await ctx.message.add_reaction("❌")
                     await ctx.send("Got errors:\n - " + "\n - ".join(errors))

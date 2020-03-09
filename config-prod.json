@@ -116,7 +116,7 @@
       "ping_role_id": 504040832102432820,
       "ping_cooldown_seconds_comment": "7200 seconds = 2 hours",
       "ping_cooldown_seconds": 7200,
-      "timezone_name": "America/Los_Angeles",
+      "timezone_name": "Europe/Berlin",
       "start_ping_allow_utc": [12, 0],
       "end_ping_allow_utc": [23, 59]
     }

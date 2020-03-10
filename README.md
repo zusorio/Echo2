@@ -15,3 +15,4 @@ General updates
 New features
 - Pinging for unofficals is now done through Echo2, auto checks 2 hour delay and time for less abuse
 - Command to purge a channel (doesn't delete specified), might be useful for admins
+- Hello (:

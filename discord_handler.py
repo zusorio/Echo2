@@ -52,6 +52,7 @@ class DiscordHandler(logging.Handler):
     def emit(self, record):
         try:
             msg = self.format(record)
-            self.write_to_discord(f"```{msg}```")
+            if msg:
+                self.write_to_discord(f"```{msg}```")
         except Exception:
             self.handleError(record)

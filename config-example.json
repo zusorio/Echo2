@@ -122,13 +122,13 @@
       "comment": "NA Channel",
       "reacts_required_channel": 652240979444629505,
       "delete_no_reacts_delay_seconds": 10,
-      "protect_regex": "[ub]{0,1}[a-d]"
+      "protect_regex": "[uc]{0,1}[a-d]($|\\s)"
     },
     {
       "comment": "EU Channel",
       "reacts_required_channel": 652241014509142046,
       "delete_no_reacts_delay_seconds": 10,
-      "protect_regex": "[ub]{0,1}[a-d]"
+      "protect_regex": "[uc]{0,1}[a-d]($|\\s)"
     }
   ],
 

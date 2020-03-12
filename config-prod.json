@@ -156,13 +156,13 @@
       "comment": "NA Channel LFP",
       "reacts_required_channel": 506248740911317024,
       "delete_no_reacts_delay_seconds": 25,
-      "protect_regex": "[uc]{0,1}[a-d]"
+      "protect_regex": "[uc]{0,1}[a-d]($|\\s)"
     },
     {
       "comment": "EU Channel LFP",
       "reacts_required_channel": 508713705580527628,
       "delete_no_reacts_delay_seconds": 25,
-      "protect_regex": "[uc]{0,1}[a-d]"
+      "protect_regex": "[uc]{0,1}[a-d]($|\\s)"
     }
   ],
 

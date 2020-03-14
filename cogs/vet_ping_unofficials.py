@@ -4,6 +4,7 @@ from discord.ext import commands
 import helpers
 from datetime import datetime, time, date, timedelta
 from timebetween import is_time_between
+import humanize
 import pytz
 
 
@@ -43,15 +44,19 @@ class VetPingUnofficials(commands.Cog):
                 if not is_time_between(check_time, begin_time, end_time):
                     if begin_time > check_time:
                         time_until_ping = datetime.combine(date.min, begin_time) - datetime.combine(date.min, check_time)
-                        errors.append(f"Pings are not allowed right now, you're allowed to ping in {time_until_ping}")
+                        time_string = humanize.naturaldelta(time_until_ping)
+                        errors.append(f"Pings are not allowed right now, you're allowed to ping in {time_string}")
                     else:
                         time_until_ping = datetime.combine(date.min, begin_time) + timedelta(days=1) - datetime.combine(date.min, check_time)
-                        errors.append(f"Pings are not allowed right now, you're allowed to ping in {time_until_ping}")
+                        time_string = humanize.naturaldelta(time_until_ping)
+                        errors.append(f"Pings are not allowed right now, you're allowed to ping in {time_string}")
 
                 # Make sure the ping for that region isn't on cooldown
                 async for message_for_check in ping_target_channel.history(oldest_first=False):
                     if message_for_check.author == self.bot.user and message_for_check.embeds and datetime.utcnow() - message_for_check.created_at < timedelta(seconds=region["ping_cooldown_seconds"]):
-                        errors.append(f"Pings for that region are on cooldown, try in {timedelta(seconds=region['ping_cooldown_seconds']) - (datetime.utcnow() - message_for_check.created_at)}")
+                        cooldown_time = timedelta(seconds=region['ping_cooldown_seconds']) - (datetime.utcnow() - message_for_check.created_at)
+                        cooldown_time_string = humanize.naturaldelta(cooldown_time)
+                        errors.append(f"Pings for that region are on cooldown, try in {cooldown_time_string}")
 
                 if len(errors) == 0:
                     await ctx.message.add_reaction("👍")

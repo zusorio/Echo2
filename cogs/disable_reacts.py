@@ -32,7 +32,7 @@ class DisableReacts(commands.Cog):
             # Get the actual message
             channel = discord.utils.get(self.bot.get_all_channels(), id=message["channel_id"])
             message_object = await channel.fetch_message(message["message_id"])
-            # Delete all reacts that ar enot allowed
+            # Delete all reacts that are not allowed
             for react in message_object.reactions:
                 if not check_emoji_allowed(react.emoji, message["exceptions"]):
                     async for user in react.users():

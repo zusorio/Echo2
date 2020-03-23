@@ -2,4 +2,4 @@ pytz
 discord.py
 py-time-between
 requests
-humanize
+humanfriendly

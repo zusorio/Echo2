@@ -8,7 +8,7 @@
     {
       "comment": "NA Channel LFP",
       "channel_id": 506248740911317024,
-      "delete_minimum_age_seconds_comment": "10800 seconds = 3 hours",
+      "delete_minimum_age_seconds_comment": "14400 seconds = 4 hours",
       "delete_minimum_age_seconds": 10800,
       "delete_ignore_messages": [
         514460657026990081,
@@ -18,8 +18,8 @@
     {
       "comment": "EU Channel LFP",
       "channel_id": 508713705580527628,
-      "delete_minimum_age_seconds_comment": "10800 seconds = 3 hours",
-      "delete_minimum_age_seconds": 10800,
+      "delete_minimum_age_seconds_comment": "14400 seconds = 4 hours",
+      "delete_minimum_age_seconds": 14400,
       "delete_ignore_messages": [
         514418981193383937,
         585640726876913678
@@ -28,8 +28,8 @@
     {
       "comment": "Unofficial Lobbies Channel",
       "channel_id": 506604689307992074,
-      "delete_minimum_age_seconds_comment": "10800 seconds = 3 hours",
-      "delete_minimum_age_seconds": 10800,
+      "delete_minimum_age_seconds_comment": "14400 seconds = 4 hours",
+      "delete_minimum_age_seconds": 14400,
       "delete_ignore_messages": [
         506604933055774720
       ]
@@ -37,8 +37,8 @@
     {
       "comment": "Ping Setup Channel",
       "channel_id": 514887894532358144,
-      "delete_minimum_age_seconds_comment": "10800 seconds = 3 hours",
-      "delete_minimum_age_seconds": 10800,
+      "delete_minimum_age_seconds_comment": "14400 seconds = 4 hours",
+      "delete_minimum_age_seconds": 14400,
       "delete_ignore_messages": [
         608737850783039550
       ]
@@ -155,13 +155,13 @@
     {
       "comment": "NA Channel LFP",
       "reacts_required_channel": 506248740911317024,
-      "delete_no_reacts_delay_seconds": 25,
+      "delete_no_reacts_delay_seconds": 30,
       "protect_regex": "[uc]{0,1}[a-d]($|\\s)"
     },
     {
       "comment": "EU Channel LFP",
       "reacts_required_channel": 508713705580527628,
-      "delete_no_reacts_delay_seconds": 25,
+      "delete_no_reacts_delay_seconds": 30,
       "protect_regex": "[uc]{0,1}[a-d]($|\\s)"
     }
   ],

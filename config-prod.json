@@ -11,8 +11,7 @@
       "delete_minimum_age_seconds_comment": "14400 seconds = 4 hours",
       "delete_minimum_age_seconds": 10800,
       "delete_ignore_messages": [
-        514460657026990081,
-        585640740588224531
+        514460657026990081
       ]
     },
     {
@@ -21,8 +20,7 @@
       "delete_minimum_age_seconds_comment": "14400 seconds = 4 hours",
       "delete_minimum_age_seconds": 14400,
       "delete_ignore_messages": [
-        514418981193383937,
-        585640726876913678
+        514418981193383937
       ]
     },
     {
@@ -51,8 +49,7 @@
       "channel_id": 506248740911317024,
       "ping_required_reacts": 12,
       "ping_ignore_messages": [
-        514460657026990081,
-        585640740588224531
+        514460657026990081
       ]
     },
     {
@@ -60,8 +57,7 @@
       "channel_id": 508713705580527628,
       "ping_required_reacts": 12,
       "ping_ignored_messages": [
-        514418981193383937,
-        585640726876913678
+        514418981193383937
       ]
     }
   ],
@@ -76,24 +72,12 @@
       ]
     },
     {
-      "comment": "NA Channel LFP Echo explanation post",
-      "channel_id": 506248740911317024,
-      "message_id": 585640740588224531,
-      "exceptions": []
-    },
-    {
       "comment": "EU Channel LFP explanation post",
       "channel_id": 508713705580527628,
       "message_id": 514418981193383937,
       "exceptions": [
         417184709508857866
       ]
-    },
-    {
-      "comment": "EU Channel LFP Echo explanation post",
-      "channel_id": 508713705580527628,
-      "message_id": 585640726876913678,
-      "exceptions": []
     }
   ],
 
@@ -128,8 +112,7 @@
       "purge_channel_alias": "na",
       "purge_channel_id": 506248740911317024,
       "purge_ignore_messages": [
-        514460657026990081,
-        585640740588224531
+        514460657026990081
       ]
     },
     {
@@ -137,8 +120,7 @@
       "purge_channel_alias": "eu",
       "purge_channel_id": 508713705580527628,
       "purge_ignore_messages": [
-        514418981193383937,
-        585640726876913678
+        514418981193383937
       ]
     },
     {

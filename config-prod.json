@@ -56,7 +56,7 @@
       "comment": "EU Channel LFP",
       "channel_id": 508713705580527628,
       "ping_required_reacts": 12,
-      "ping_ignored_messages": [
+      "ping_ignore_messages": [
         514418981193383937
       ]
     }

@@ -47,7 +47,7 @@ class DiscordHandler(logging.Handler):
 
         if not request.ok:
             raise requests.exceptions.HTTPError(
-                f"Request not successful... Code = %s, Message = %s" % request.status_code, request.text)
+                f"Request not successful... Code = {request.status_code}, Message = {request.text}")
 
     def emit(self, record):
         try:

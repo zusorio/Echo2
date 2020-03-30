@@ -150,7 +150,7 @@
 
   "delete_match_regex": [
     {
-      "delete_channel_id": 50660468930799207,
+      "delete_channel_id": 506604689307992074,
       "protect_regex": "lobb"
     }
   ]

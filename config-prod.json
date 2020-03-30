@@ -9,7 +9,7 @@
       "comment": "NA Channel LFP",
       "channel_id": 506248740911317024,
       "delete_minimum_age_seconds_comment": "14400 seconds = 4 hours",
-      "delete_minimum_age_seconds": 10800,
+      "delete_minimum_age_seconds": 14400,
       "delete_ignore_messages": [
         514460657026990081
       ]

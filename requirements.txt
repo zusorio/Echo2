@@ -3,3 +3,4 @@ discord.py
 py-time-between
 requests
 humanfriendly
+pyowapi

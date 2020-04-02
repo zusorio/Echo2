@@ -24,7 +24,7 @@ async def send_ping(message: discord.Message, users_to_mention: list):
     :return: Nothing
     """
     # Create an embed
-    embed = discord.Embed(title=f"{message.author.display_name} said:", description=f"{message.content}")
+    embed = discord.Embed(title=f"{message.author.display_name} said:", description=f"{message.content}", colour=discord.Colour(0x358bbb))
     # Create a string of all the users separated by \n
     users_string = "\n".join(user.mention for user in users_to_mention)
     # Post the message
@@ -67,5 +67,5 @@ class PingForMessages(commands.Cog):
                 was_pinged_earlier = await self.message_was_pinged_earlier(reacted_message)
                 if not was_pinged_earlier and reacted_message.author != self.bot.user:
                     # Ping for the message
-                    self.log.info(f"Pinging for message {reacted_message.content} from {reacted_message.author.display_name}")
+                    self.log.warning(f"Reached reacts, pinging for message {reacted_message.content} from {reacted_message.author.display_name}")
                     await send_ping(reacted_message, unique_react_users)

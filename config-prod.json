@@ -3,7 +3,7 @@
   "bot_prefix": "%",
   "debug": true,
   "bot_log_webhook": "redacted",
-  "bot_log_name": "PugHelpBot Logs",
+  "bot_log_name": "EchoLog",
   "clean_old_messages": [
     {
       "comment": "NA Channel LFP",

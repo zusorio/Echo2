@@ -30,7 +30,7 @@ def main():
     log.addHandler(text_handler)
 
     # Create a handler that outputs WARNING to the discord webhook
-    webhook_handler = DiscordHandler(config.bot_log_webhook, config.bot_log_webhook)
+    webhook_handler = DiscordHandler(config.bot_log_webhook, config.bot_log_name)
     webhook_handler.setLevel(logging.WARNING)
     webhook_handler.setFormatter(format)
     log.addHandler(webhook_handler)

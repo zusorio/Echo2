@@ -18,7 +18,8 @@ class ReactsRequired(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
-        if message.author != self.bot.user:
+        # Message is not from self or another bot
+        if message.author != self.bot.user and message.author.bot is not True:
             for channel in self.config.reacts_required:
                 # If the message is in the correct channel and isn't protected or a lobby info (Lobby UA)
                 if message.channel.id == channel["reacts_required_channel"] and not re.search(channel["protect_regex"], message.content, flags=re.IGNORECASE):

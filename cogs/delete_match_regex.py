@@ -17,7 +17,8 @@ class DeleteMatchRegEx(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
-        if message.author != self.bot.user:
+        # Message is not from self or another bot
+        if message.author != self.bot.user and message.author.bot is not True:
             # Go over all configured channels
             for channel in self.config.delete_match_regex:
                 if message.channel.id == channel["delete_channel_id"]:

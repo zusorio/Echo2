@@ -153,5 +153,32 @@
       "delete_channel_id": 506604689307992074,
       "protect_regex": "lobb"
     }
+  ],
+
+  "warn_wrong_battletags": [
+    {
+      "comment": "Twitch Battletag Channel",
+      "channel_id": 562839940648534026,
+      "public_required": true,
+      "level_25_required": true
+    },
+    {
+      "comment": "Unofficial Battletag Channel",
+      "channel_id": 647456585135685643,
+      "public_required": true,
+      "level_25_required": false
+    },
+    {
+      "comment": "Coached Battletag Channel",
+      "channel_id": 647463638399057950,
+      "public_required": true,
+      "level_25_required": true
+    },
+    {
+      "comment": "Official Pugs Channel",
+      "channel_id": 506026271688622080,
+      "public_required": true,
+      "level_25_required": true
+    }
   ]
 }

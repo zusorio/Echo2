@@ -1,32 +1,21 @@
 import helpers
 import logging
 import discord
-from discord.ext import commands
+import random
 import pprint
+from datetime import datetime
+import subprocess
+from discord.ext import commands, tasks
 
 
-def get_safe_config(config: helpers.Config):
-    """
-    Get's the config with info redacted split into 1500 character chunks
-    :param config: The config object
-    :return: Config split into 1500 character chunks
-    """
-    scrubbed_config = config.config_object
-    scrubbed_config["token"] = "REDACTED"
-    scrubbed_config["bot_log_webhook"] = "REDACTED"
-    # Split config into 2000 character blocks because of discords message limit.
-    config_string_lines = pprint.pformat(scrubbed_config).splitlines()
-    output_messages = []
-    current_message = ""
-    for line in config_string_lines:
-        if len(current_message) + len(line) < 1500:
-            current_message += line + "\n"
-        else:
-            output_messages.append(current_message)
-            current_message = ""
-    if current_message != "":
-        output_messages.append(current_message)
-    return output_messages
+def get_git_revision_short_hash():
+    return subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD']).decode()
+
+
+def format_start_message():
+    return f"\nEcho2 @ {get_git_revision_short_hash()}" \
+           f"It is {datetime.utcnow().isoformat()} UTC\n" \
+           f"Startup complete"
 
 
 class Initialize(commands.Cog):
@@ -38,12 +27,36 @@ class Initialize(commands.Cog):
         self.config = config
         self.log.info("Loaded Cog Initialize")
 
+    async def set_presence(self):
+        presence_games = [
+            "PUGs",
+            "Overwatch",
+            "GitGud",
+            "VALORANT",
+            "PUGGERS",
+            "Unofficial PUGs",
+            "Coached PUGs",
+            "Ranked",
+            "elohell.gg",
+            "GOATs",
+            "3-3",
+            "Brigitte",
+            "Scrims",
+            "e-Sports",
+            "eSports",
+            "self-isolation"
+        ]
+        selected_game = random.choice(presence_games)
+        await self.bot.change_presence(activity=discord.Game(selected_game))
+
+    @tasks.loop(minutes=30)
+    async def update_presence_auto(self):
+        await self.set_presence()
+
     @commands.Cog.listener()
     async def on_ready(self):
         # Set rich presence and inform us once the bot is ready
-        activity = discord.Activity(activity=discord.Game("PUGs"))
-        await self.bot.change_presence(activity=activity)
-        self.log.warning(f"\nConfig:")
-        for part in get_safe_config(self.config):
-            self.log.warning("\n" + part)
-        self.log.warning("Bot is ready, set rich presence")
+        await self.set_presence()
+        self.log.info(pprint.pprint(self.config.config_object))
+        self.log.warning(format_start_message())
+        self.update_presence_auto.start()

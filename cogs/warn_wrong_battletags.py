@@ -10,7 +10,8 @@ import aiohttp
 async def get_possible_correct_tag(wrong_battletag: str):
     async with aiohttp.ClientSession() as session:
         # If they messed up their capitalization this will return the correct capitalization
-        async with session.get(f"https://playoverwatch.com/en-us/search/account-by-name/{wrong_battletag.replace('#', '-')}") as r:
+        # Replace # with %23 as hashtag is not auto encoded for some reason
+        async with session.get(f"https://playoverwatch.com/en-us/search/account-by-name/{wrong_battletag.replace('#', '%23')}") as r:
             if r.status == 200:
                 profiles = await r.json()
                 # Filter the data to only include PC battletags

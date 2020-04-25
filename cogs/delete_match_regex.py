@@ -27,4 +27,6 @@ class DeleteMatchRegEx(commands.Cog):
                         helpers.log_message_deletes([message], f"DeleteMatchRegEx {message.channel.name} {channel['protect_regex']}", self.log)
                         await message.delete()
                         await message.author.send("Your message was deleted! Please only use this channel to list lobbies!\n"
-                                                  "Use the format described in the channel to make sure your message doesn't get deleted!")
+                                                  "Use this format to make sure your message doesn't get deleted:\n"
+                                                  "`Lobby {LOBBYNAME}: {SR} {REGION}`\n"
+                                                  "For example: `Lobby UB: <3.5K NA` or `Lobby C: Mixed EU`")

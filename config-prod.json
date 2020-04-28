@@ -205,6 +205,11 @@
         "title": "When do pugs happen?",
         "description": "Pugs happen 4 days a week, to find out when pugs happen next check our <#701452458152689744>. Here's an overview:",
         "image": "https://i.imgur.com/4zl76e9.png"
+      },
+      {
+        "match": "(how.{0,15}join)",
+        "title": "How do I PUG?",
+        "description": "To join a PUG, look to see which lobby and voice channel you should join based on your SR. You can view the lobbies in <#504044585174040576>, <#504044584351957002> or <#506604689307992074>. Join the voice channel, with your mic muted if a game is going on, and post your battletag in <#506026271688622080>, <#647463638399057950> or <#647456585135685643> respectively.\nMake sure all letters, numbers and capitalizations are correct, and that you are in-game and ready to receive an invite. Ask your lobby leader politely for an invitation to the in-game lobby once any ongoing game is finished."
       }
     ],
     "question_channels": {

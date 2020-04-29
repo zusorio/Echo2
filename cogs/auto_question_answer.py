@@ -29,7 +29,7 @@ class AutoQuestionAnswer(commands.Cog):
                                               colour=discord.Colour(0x358bbb))
                         if question.get("image"):
                             embed.set_image(url=question.get("image"))
-                        embed.set_footer(text="If this didn't help, press ❌. If it did press ✅")
+                        embed.set_footer(text="If this didn't help, press ❌. If it did press ✅ to mark it as accepted answer")
                         response_message = await message.channel.send(embed=embed)
                         await response_message.add_reaction("❌")
                         await response_message.add_reaction("✅")
@@ -37,18 +37,22 @@ class AutoQuestionAnswer(commands.Cog):
 
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction: discord.Reaction, user: discord.Member):
-        # Message is from bot and react is not from bot and in correct channel
-        if reaction.message.author.id == self.bot.user.id and user.id != self.bot.user.id and reaction.message.channel.id == 701451588593647628:
-            # React is for deleting the message
-            if reaction.emoji == "❌":
-                # Get old embed and change color to red
-                embed = reaction.message.embeds[0]
-                embed.colour = discord.Colour(0xf1370f)
-                await reaction.message.edit(embed=embed)
-                # Wait 1.25 seconds because the deletion is kinda jarring otherwise
-                await reaction.message.delete(delay=1.25)
-            elif reaction.emoji == "✅":
-                # Get old embed and change color to green
-                embed = reaction.message.embeds[0]
-                embed.colour = discord.Colour(0x0fc704)
-                await reaction.message.edit(embed=embed)
+        # Message is in correct channel
+        if reaction.message.channel.id in list(self.config.auto_question_answer["question_channels"].values()):
+            # Message is from bot and react is not from bot and in correct channel
+            if reaction.message.author.id == self.bot.user.id and user.id != self.bot.user.id:
+                # React is for deleting the message
+                if reaction.emoji == "❌":
+                    # Get old embed and change color to red
+                    embed = reaction.message.embeds[0]
+                    embed.colour = discord.Colour(0xf1370f)
+                    await reaction.message.edit(embed=embed)
+                    await reaction.message.clear_reactions()
+                    # Wait 1.25 seconds because the deletion is kinda jarring otherwise
+                    await reaction.message.delete(delay=1.25)
+                elif reaction.emoji == "✅":
+                    # Get old embed and change color to green
+                    embed = reaction.message.embeds[0]
+                    embed.colour = discord.Colour(0x0fc704)
+                    await reaction.message.edit(embed=embed)
+                    await reaction.message.clear_reactions()

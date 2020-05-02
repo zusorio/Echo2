@@ -25,7 +25,7 @@ class DiscordHandler(logging.Handler):
         try:
             msg = self.format(record)
             if msg:
-                self._webhook.send(content=f"```{msg}```", wait=True, username=self._username)
+                self._webhook.send(content=f"```{msg}```", wait=True, username=self._username, avatar_url="https://cdn.discordapp.com/app-icons/581523092363411493/9f85d39eb6321ad12b2d13396c4595f5.png?size=512")
 
         except Exception:
             self.handleError(record)

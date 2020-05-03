@@ -180,5 +180,50 @@
       "public_required": true,
       "level_25_required": true
     }
-  ]
+  ],
+  "auto_question_answer": {
+    "staff_roles": {
+      "Pug Boss": 506682236821831682,
+      "PUG Admin": 505572593374330882,
+      "PUG Moderator": 504040405826928663,
+      "PC PUG Staff": 504040406414131201,
+      "PS4 PUG Staff": 514473025354203161,
+      "Xbox PUG Staff": 514471348232257536,
+      "Community Moderator": 504222907254308864,
+      "Elo Hell Director": 623716884222836737,
+      "Elo Hell Staff": 579996883234062366,
+      "Senior Community Mod": 504040403096436776
+    },
+    "questions": [
+      {
+        "match": "(coach)|(beginner)",
+        "title": "How do coached PUGs work?",
+        "description": "These are PUGs that we organize for players who are Gold and below, both teams are selected by a coach, who will give advice and feedback during pauses in the game. The goal of Coached PUGs is to help players improve.\nTo get access to **Coached PUGs** verify that you meet the requirements below and send screenshots of the current and last 2 seasons of competitive to a moderator or admin as proof.\n```- Account level must at least be level 100.\n- Players must have placed this season.\n- Players need to be ranked Gold or below.\n- Gold players need to have a season high that is below 2750 SR in the current and previous 2 seasons, this SR cap does not apply to players in Silver or Bronze. You will provide screenshots of these seasons as proof of this.\n- Players will only be allowed to play on roles they are currently below 2500 SR on.```"
+      },
+      {
+        "match": "(pug(s?) today)|(when.{1,15}pug)|(schedule)|(next.{1,15}pug)|(time.{1,15}pugs)|(pugs.{1,20}now)",
+        "title": "When do pugs happen?",
+        "description": "Pugs happen 4 days a week, to find out when pugs happen next check our <#701452458152689744>. Here's an overview:",
+        "image": "https://i.imgur.com/4zl76e9.png"
+      },
+      {
+        "match": "(how.{0,15}join)",
+        "title": "How do I PUG?",
+        "description": "To join a PUG, look to see which lobby and voice channel you should join based on your SR. You can view the lobbies in <#504044585174040576>, <#504044584351957002> or <#506604689307992074>. Join the voice channel, with your mic muted if a game is going on, and post your battletag in <#506026271688622080>, <#647463638399057950> or <#647456585135685643> respectively.\nMake sure all letters, numbers and capitalizations are correct, and that you are in-game and ready to receive an invite. Ask your lobby leader politely for an invitation to the in-game lobby once any ongoing game is finished."
+      },
+      {
+        "match": "(console)|(xbox)|(ps4)|(playstation)",
+        "title": "How do console PUGs work?",
+        "description":"**Xbox PUGs**\n\nAnnouncements will go out as normal in the #xbox-announce channel where people are expected to react if interested in participating. \nXbox Parties will be made/hosted on the Elo Hell Xbox PUGs Xbox Club for each lobby. Xbox PUG staff/Vets hosting the PUG will direct people as to which party to join.\n\n**PS4 PUGs**\n\nThere will be two announcements, a 1 hour heads up to let you know PUGs are going ahead, and an announcement when the PUG begins. These announcements will let you know who the lobby host will be, make sure to add the host when they post their account name. The lobby host will open a lobby named “Elo Hell PUGs” and set it to friends only, you can either join from the lobby browser or ask them for an invite. The lobby host will invite 2 captains to a private party and build teams and choose a map. The match will begin shortly after map picks."
+      },
+      {
+        "match": "(oceanic)|(oce)",
+        "title": "Are there Oceanic PUGs?",
+        "description": "Unfortunately, due to low demand we do not run Oceanic PUGs. However, feel free to join NA or EU PUGs."
+      }
+    ],
+    "question_channels": {
+      "questions-for-staff": 701451588593647628
+    }
+  }
 }

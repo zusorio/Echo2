@@ -4,7 +4,7 @@ from helpers import Config
 import logging
 
 from discord_handler import DiscordHandler
-from cogs import clean_old_messages, ping_for_messages, disable_reacts, vet_ping_unofficials, purge_channel, reacts_required, delete_match_regex, initialize, warn_wrong_battletags
+from cogs import clean_old_messages, ping_for_messages, disable_reacts, vet_ping_unofficials, purge_channel, reacts_required, delete_match_regex, initialize, warn_wrong_battletags, auto_question_answer
 
 
 def main():
@@ -47,6 +47,7 @@ def main():
     bot.add_cog(reacts_required.ReactsRequired(bot, config, log))
     bot.add_cog(delete_match_regex.DeleteMatchRegEx(bot, config, log))
     bot.add_cog(warn_wrong_battletags.WarnWrongBattletags(bot, config, log))
+    bot.add_cog(auto_question_answer.AutoQuestionAnswer(bot, config, log))
     bot.add_cog(initialize.Initialize(bot, config, log))
 
     # Start bot

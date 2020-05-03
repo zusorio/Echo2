@@ -61,7 +61,7 @@ class AutoQuestionAnswer(commands.Cog):
                     elif reaction.emoji == "✅":
                         # Get old embed and change color to green
                         embed.colour = discord.Colour(0x0fc704)
-                        embed.set_footer(text=f"Mark as accepted answer | {original_message.id}")
+                        embed.set_footer(text=f"Marked as accepted answer | {original_message.id}")
                         await reaction.message.edit(embed=embed)
                         await reaction.message.clear_reactions()
                     # Reaction is spam, remove

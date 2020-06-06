@@ -202,8 +202,8 @@
       {
         "match": "(pug(s?) today)|(when.{1,15}pug)|(schedule)|(next.{1,15}pug)|(time.{1,15}pugs)|(pugs.{1,20}now)",
         "title": "When do pugs happen?",
-        "description": "Pugs happen 4 days a week, to find out when pugs happen next check our <#701452458152689744>. Here's an overview:",
-        "image": "https://i.imgur.com/4zl76e9.png"
+        "description": "Pugs happen 4 days a week, to find out when pugs happen next check our <#718603209387540602>. Here's an overview:",
+        "image": "https://i.imgur.com/3Q4rQlf.png"
       },
       {
         "match": "(how.{0,15}join)",

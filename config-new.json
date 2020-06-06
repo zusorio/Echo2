@@ -29,7 +29,7 @@
       "delete_minimum_age_seconds_comment": "14400 seconds = 4 hours",
       "delete_minimum_age_seconds": 14400,
       "delete_ignore_messages": [
-        715692895440470108
+        718722181210570752
       ]
     },
     {
@@ -38,7 +38,7 @@
       "delete_minimum_age_seconds_comment": "14400 seconds = 4 hours",
       "delete_minimum_age_seconds": 14400,
       "delete_ignore_messages": [
-        718554784725991424
+        718722181210570752
       ]
     }
   ],
@@ -83,7 +83,7 @@
     {
       "comment": "Lobbies Channel",
       "channel_id": 715692895440470108,
-      "message_id": 718553197261619201,
+      "message_id": 718722181210570752,
       "exceptions": []
     }
   ],
@@ -137,7 +137,7 @@
       "purge_channel_alias": "lobbies",
       "purge_channel_id": 715692895440470108,
       "purge_ignore_messages": [
-        718553197261619201
+        718722181210570752
       ]
     }
   ],

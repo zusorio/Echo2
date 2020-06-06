@@ -1,5 +1,6 @@
 import logging
 import discord
+import asyncio
 from datetime import datetime, timedelta
 from discord.ext import commands, tasks
 import helpers
@@ -20,6 +21,8 @@ class CleanOldMessages(commands.Cog):
     async def initialize(self):
         # wait until bot is fully ready before starting task, otherwise it breaks
         await self.bot.wait_until_ready()
+        # wait for the bot to process the channels and members
+        await asyncio.sleep(10)
         self.clean_old_messages.start()
         self.log.info("CleanOldMessages is fully ready")
 

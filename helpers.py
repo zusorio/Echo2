@@ -12,9 +12,7 @@ class Config:
                 self.config_object = json.load(config_file)
         except FileNotFoundError:
             raise SystemExit("Could not find config")
-        self.token = self.config_object["token"]
         self.bot_prefix = self.config_object["bot_prefix"]
-        self.bot_log_webhook = self.config_object["bot_log_webhook"]
         self.bot_log_name = self.config_object["bot_log_name"]
         self.clean_old_messages = self.config_object["clean_old_messages"]
         self.ping_for_messages = self.config_object["ping_for_messages"]
@@ -25,6 +23,17 @@ class Config:
         self.delete_match_regex = self.config_object["delete_match_regex"]
         self.warn_wrong_battletags = self.config_object["warn_wrong_battletags"]
         self.auto_question_answer = self.config_object["auto_question_answer"]
+
+
+class Credentials:
+    def __init__(self):
+        try:
+            with codecs.open("credentials.json", "r", encoding='utf-8') as config_file:
+                self.config_object = json.load(config_file)
+        except FileNotFoundError:
+            raise SystemExit("Could not find config")
+        self.token = self.config_object["bot_token"]
+        self.bot_log_webhook = self.config_object["webhook"]
 
 
 def log_message_deletes(messages: List[discord.Message], action_name: str, log: logging.Logger):

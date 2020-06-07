@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from helpers import Config
+from helpers import Config, Credentials
 import logging
 
 from discord_handler import DiscordHandler
@@ -10,6 +10,7 @@ from cogs import clean_old_messages, ping_for_messages, disable_reacts, vet_ping
 def main():
     # Read config
     config = Config()
+    credentials = Credentials()
 
     # Set up logging
     format = logging.Formatter(
@@ -30,7 +31,7 @@ def main():
     log.addHandler(text_handler)
 
     # Create a handler that outputs WARNING to the discord webhook
-    webhook_handler = DiscordHandler(config.bot_log_webhook, config.bot_log_name)
+    webhook_handler = DiscordHandler(credentials.bot_log_webhook, config.bot_log_name)
     webhook_handler.setLevel(logging.WARNING)
     webhook_handler.setFormatter(format)
     log.addHandler(webhook_handler)
@@ -52,7 +53,7 @@ def main():
 
     # Start bot
     log.warning("Starting Bot...")
-    bot.run(config.token)
+    bot.run(credentials.token)
 
 
 main()

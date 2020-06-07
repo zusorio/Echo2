@@ -1,3 +1,5 @@
 venv
 .idea
 config.json
+credentials.json
+config-testing.json

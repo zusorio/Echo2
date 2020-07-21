@@ -4,7 +4,8 @@ from helpers import Config, Credentials
 import logging
 
 from discord_handler import DiscordHandler
-from cogs import clean_old_messages, ping_for_messages, disable_reacts, vet_ping_unofficials, purge_channel, reacts_required, delete_match_regex, initialize, warn_wrong_battletags, auto_question_answer
+from cogs import clean_old_messages, ping_for_messages, disable_reacts, vet_ping_unofficials, purge_channel, \
+    reacts_required, delete_match_regex, initialize, warn_wrong_battletags, auto_question_answer, announce
 
 
 def main():
@@ -49,6 +50,7 @@ def main():
     bot.add_cog(delete_match_regex.DeleteMatchRegEx(bot, config, log))
     bot.add_cog(warn_wrong_battletags.WarnWrongBattletags(bot, config, log))
     bot.add_cog(auto_question_answer.AutoQuestionAnswer(bot, config, log))
+    bot.add_cog(announce.Announce(bot, config, log, credentials.airtable_api_key))
     bot.add_cog(initialize.Initialize(bot, config, log))
 
     # Start bot

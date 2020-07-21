@@ -23,6 +23,7 @@ class Config:
         self.delete_match_regex = self.config_object["delete_match_regex"]
         self.warn_wrong_battletags = self.config_object["warn_wrong_battletags"]
         self.auto_question_answer = self.config_object["auto_question_answer"]
+        self.announce = self.config_object["announce"]
 
 
 class Credentials:
@@ -34,6 +35,7 @@ class Credentials:
             raise SystemExit("Could not find config")
         self.token = self.config_object["bot_token"]
         self.bot_log_webhook = self.config_object["webhook"]
+        self.airtable_api_key = self.config_object["airtable_api_key"]
 
 
 def log_message_deletes(messages: List[discord.Message], action_name: str, log: logging.Logger):

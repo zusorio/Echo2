@@ -38,6 +38,15 @@
       "delete_ignore_messages": [
         718554784725991424
       ]
+    },
+    {
+      "comment": "PUG Announcements Channel",
+      "channel_id": 735139991675469885,
+      "delete_minimum_age_seconds_comment": "172800 seconds = 48 hours",
+      "delete_minimum_age_seconds": 172800,
+      "delete_ignore_messages": [
+
+      ]
     }
   ],
 

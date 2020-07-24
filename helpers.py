@@ -25,6 +25,7 @@ class Config:
         self.auto_question_answer = self.config_object["auto_question_answer"]
         self.announce = self.config_object["announce"]
         self.alert_unofficial_start = self.config_object["alert_unofficial_start"]
+        self.analytics = self.config_object["analytics"]
 
 
 class Credentials:

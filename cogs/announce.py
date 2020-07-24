@@ -20,7 +20,7 @@ class Announce(commands.Cog):
         self.announce_templates = Airtable(self.config.announce["airtable_base"], "Announce Templates", api_key=airtable_api_key)
         self.check_for_announcements.start()
 
-    @tasks.loop(seconds=2, reconnect=True)
+    @tasks.loop(seconds=10, reconnect=True)
     async def check_for_announcements(self):
         await self.bot.wait_until_ready()
         pugs = self.pug_list.get_all(view="Bot View")
@@ -28,9 +28,21 @@ class Announce(commands.Cog):
 
         for pug in pugs:
             fields = pug["fields"]
-            if fields.get("Auto Remind") is not True and fields.get("Auto Announce") is not True or not fields.get("Announce Template"):
-                # If we don't have any announcement we can ignore the row
-                # This also makes sure that we don't try to read any incomplete records
+
+            is_valid = True
+
+            # All these fields need to be present, else mark as invalid
+            required_fields = ["Time (in GMT)", "Type", "Announce Template", "Remind x before"]
+            for required_field in required_fields:
+                if not fields.get(required_field):
+                    is_valid = False
+            # If there is no announcement no action is required and the row is marked as invalid
+            if fields.get("Auto Remind") is not True and fields.get("Auto Announce") is not True:
+                is_valid = False
+
+            # If the row is invalid ignore it
+            if not is_valid:
+                self.log.warning(f"Ignoring {fields['PUG ID']} due to missing fields")
                 continue
 
             pug_template = [template for template in templates if template["id"] == fields["Announce Template"][0]][0]

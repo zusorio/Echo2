@@ -38,6 +38,15 @@
       "delete_ignore_messages": [
         718554784725991424
       ]
+    },
+    {
+      "comment": "PUG Announcements Channel",
+      "channel_id": 735139991675469885,
+      "delete_minimum_age_seconds_comment": "172800 seconds = 48 hours",
+      "delete_minimum_age_seconds": 172800,
+      "delete_ignore_messages": [
+
+      ]
     }
   ],
   "ping_for_messages": [
@@ -91,14 +100,8 @@
       "ping_cooldown_seconds_comment": "7200 seconds = 2 hours",
       "ping_cooldown_seconds": 7200,
       "timezone_name": "America/Los_Angeles",
-      "start_ping_allow_utc": [
-        12,
-        0
-      ],
-      "end_ping_allow_utc": [
-        23,
-        59
-      ]
+      "start_ping_allow_utc": [12, 0],
+      "end_ping_allow_utc": [23, 59]
     },
     {
       "region_name": "eu",
@@ -108,14 +111,8 @@
       "ping_cooldown_seconds_comment": "7200 seconds = 2 hours",
       "ping_cooldown_seconds": 7200,
       "timezone_name": "Europe/Berlin",
-      "start_ping_allow_utc": [
-        12,
-        0
-      ],
-      "end_ping_allow_utc": [
-        23,
-        59
-      ]
+      "start_ping_allow_utc": [12, 0],
+      "end_ping_allow_utc": [23, 59]
     }
   ],
   "purge_channel": [
@@ -277,5 +274,18 @@
         "announce_channel": 715697296007757886
       }
     }
+  },
+  "alert_unofficial_start": {
+    "alert_receive_channels": [
+      {
+        "comment": "NA LFP",
+        "channel": 715692832043696270
+      },
+      {
+        "comment": "EU LFP",
+        "channel": 715692867196289097
+      }
+    ],
+    "alert_send_channel": 735139991675469885
   }
 }

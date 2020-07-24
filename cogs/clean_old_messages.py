@@ -35,7 +35,7 @@ class CleanOldMessages(commands.Cog):
         else:
             self.log.warning(f"Deleted an embed by {message.author.display_name} in {message.channel.name}")
 
-    @tasks.loop(seconds=60)
+    @tasks.loop(seconds=60, reconnect=True)
     async def clean_old_messages(self):
         self.log.debug("cleaning")
         # Go over all channels in the config

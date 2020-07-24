@@ -20,7 +20,7 @@ class Announce(commands.Cog):
         self.announce_templates = Airtable(self.config.announce["airtable_base"], "Announce Templates", api_key=airtable_api_key)
         self.check_for_announcements.start()
 
-    @tasks.loop(seconds=2)
+    @tasks.loop(seconds=2, reconnect=True)
     async def check_for_announcements(self):
         await self.bot.wait_until_ready()
         pugs = self.pug_list.get_all(view="Bot View")
@@ -28,6 +28,11 @@ class Announce(commands.Cog):
 
         for pug in pugs:
             fields = pug["fields"]
+            if fields.get("Auto Remind") is not True and fields.get("Auto Announce") is not True or not fields.get("Announce Template"):
+                # If we don't have any announcement we can ignore the row
+                # This also makes sure that we don't try to read any incomplete records
+                continue
+
             pug_template = [template for template in templates if template["id"] == fields["Announce Template"][0]][0]
             pug_template_name = pug_template['fields']['Name']
             pug_template_content = pug_template['fields']['Template (Discord Markdown)']
@@ -61,8 +66,7 @@ class Announce(commands.Cog):
                     title="Availability Check for PUGs",
                     description=f"**{pug_name}** are in {pug_reminder_delay_human}, ping will use {pug_template_name} Template.\nWho is available for these?",
                     colour=discord.Colour(0x358bbb))
-                await reminder_channel.send(f"<@&{pug_type['reminder_role']}>")
-                await reminder_channel.send(embed=embed)
+                await reminder_channel.send(content=f"<@&{pug_type['reminder_role']}>", embed=embed)
 
                 # Remind the coaches if it's coached PUGs
                 if "Coached" in fields['Type']:
@@ -73,8 +77,7 @@ class Announce(commands.Cog):
                             title="Availability Check for Coached PUGs",
                             description=f"**{pug_name}** are in {pug_reminder_delay_human}.\nIf you are available to coach please let us know!",
                             colour=discord.Colour(0x358bbb))
-                        await channel.send(f"<@&{coach_channel['role']}>")
-                        await channel.send(embed=embed)
+                        await channel.send(content=f"<@&{coach_channel['role']}>", embed=embed)
 
                 # Update the table that we've done the reminder
                 self.pug_list.update(pug["id"], {"Was Reminded": True})
@@ -88,8 +91,7 @@ class Announce(commands.Cog):
                     title=f"Pinging for PUGs in {time_warn_before_announce} minutes",
                     description=f"**{pug_name}** are in {time_warn_before_announce} minutes, ping will use {pug_template_name} Template.\n```{pug_template_content}```",
                     colour=discord.Colour(0x358bbb))
-                await reminder_channel.send(f"<@&{pug_type['reminder_role']}>")
-                await reminder_channel.send(embed=embed)
+                await reminder_channel.send(content=f"<@&{pug_type['reminder_role']}>", embed=embed)
 
                 # Update the table that we've done the reminder
                 self.pug_list.update(pug["id"], {"Was Announce Reminded": True})

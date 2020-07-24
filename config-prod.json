@@ -38,9 +38,17 @@
       "delete_ignore_messages": [
         718554784725991424
       ]
+    },
+    {
+      "comment": "PUG Announcements Channel",
+      "channel_id": 735139991675469885,
+      "delete_minimum_age_seconds_comment": "172800 seconds = 48 hours",
+      "delete_minimum_age_seconds": 172800,
+      "delete_ignore_messages": [
+
+      ]
     }
   ],
-
   "ping_for_messages": [
     {
       "comment": "NA Channel LFP",
@@ -59,8 +67,6 @@
       ]
     }
   ],
-
-
   "disable_reacts": [
     {
       "comment": "NA Channel LFP explanation post",
@@ -85,8 +91,6 @@
       "exceptions": []
     }
   ],
-
-
   "vet_ping_unofficials": [
     {
       "region_name": "na",
@@ -111,8 +115,6 @@
       "end_ping_allow_utc": [23, 59]
     }
   ],
-
-
   "purge_channel": [
     {
       "command_channel_id": 440249322156851221,
@@ -139,8 +141,6 @@
       ]
     }
   ],
-
-
   "reacts_required": [
     {
       "comment": "NA Channel LFP",
@@ -155,16 +155,12 @@
       "protect_regex": "[uc]{0,1}[a-d]($|\\s)"
     }
   ],
-
-
   "delete_match_regex": [
     {
       "delete_channel_id": 715692895440470108,
       "protect_regex": "lobb"
     }
   ],
-
-
   "warn_wrong_battletags": [
     {
       "comment": "Battletag Channel",
@@ -179,8 +175,6 @@
       "level_25_required": true
     }
   ],
-
-
   "auto_question_answer": {
     "staff_roles": {
       "Director": 614504341851602964,
@@ -211,7 +205,7 @@
       {
         "match": "(console)|(xbox)|(ps4)|(playstation)",
         "title": "How do console PUGs work?",
-        "description":"**Xbox PUGs**\n\nAnnouncements will go out as normal in the #xbox-announce channel where people are expected to react if interested in participating. \nXbox Parties will be made/hosted on the Elo Hell Xbox PUGs Xbox Club for each lobby. Xbox PUG staff/Vets hosting the PUG will direct people as to which party to join.\n\n**PS4 PUGs**\n\nThere will be two announcements, a 1 hour heads up to let you know PUGs are going ahead, and an announcement when the PUG begins. These announcements will let you know who the lobby host will be, make sure to add the host when they post their account name. The lobby host will open a lobby named “Elo Hell PUGs” and set it to friends only, you can either join from the lobby browser or ask them for an invite. The lobby host will invite 2 captains to a private party and build teams and choose a map. The match will begin shortly after map picks."
+        "description": "**Xbox PUGs**\n\nAnnouncements will go out as normal in the #xbox-announce channel where people are expected to react if interested in participating. \nXbox Parties will be made/hosted on the Elo Hell Xbox PUGs Xbox Club for each lobby. Xbox PUG staff/Vets hosting the PUG will direct people as to which party to join.\n\n**PS4 PUGs**\n\nThere will be two announcements, a 1 hour heads up to let you know PUGs are going ahead, and an announcement when the PUG begins. These announcements will let you know who the lobby host will be, make sure to add the host when they post their account name. The lobby host will open a lobby named “Elo Hell PUGs” and set it to friends only, you can either join from the lobby browser or ask them for an invite. The lobby host will invite 2 captains to a private party and build teams and choose a map. The match will begin shortly after map picks."
       },
       {
         "match": "(oceanic)|(oce)",
@@ -223,7 +217,64 @@
       "op-questions-for-staff": 715691901130506250
     }
   },
-
+  "announce": {
+    "airtable_base": "app4xCZNkqUptCUxE",
+    "warn_announce_before_minutes": 5,
+    "coach_channels": [
+      {
+        "comment": "Normal Coaches",
+        "channel": 715696048479141890,
+        "role": 714998692066885632
+      },
+      {
+        "comment": "Trial Coaches",
+        "channel": 715696098571845693,
+        "role": 714998694188941354
+      }
+    ],
+    "types": {
+      "NA PC Regular": {
+        "reminder_channel": 717850110595170314,
+        "reminder_role": 717863900204236865,
+        "announce_channel": 715692963358834828
+      },
+      "NA PC Coached": {
+        "reminder_channel": 717850028294799430,
+        "reminder_role": 717864045608173578,
+        "announce_channel": 715695780186292225
+      },
+      "EU PC Regular": {
+        "reminder_channel": 717850078038982768,
+        "reminder_role": 717863514215284767,
+        "announce_channel": 715693003683004456
+      },
+      "EU PC Coached": {
+        "reminder_channel": 717850028294799430,
+        "reminder_role": 717864045608173578,
+        "announce_channel": 715695780186292225
+      },
+      "NA PS4": {
+        "reminder_channel": 717850142950293634,
+        "reminder_role": 717864136448409601,
+        "announce_channel": 715696495470444725
+      },
+      "EU PS4": {
+        "reminder_channel": 717850142950293634,
+        "reminder_role": 717864136448409601,
+        "announce_channel": 715696495470444725
+      },
+      "NA XBOX": {
+        "reminder_channel": 717850176089358377,
+        "reminder_role": 717864248818008084,
+        "announce_channel": 715697296007757886
+      },
+      "EU XBOX": {
+        "reminder_channel": 717850176089358377,
+        "reminder_role": 717864248818008084,
+        "announce_channel": 715697296007757886
+      }
+    }
+  },
   "alert_unofficial_start": {
     "alert_receive_channels": [
       {

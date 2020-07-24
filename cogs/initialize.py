@@ -49,7 +49,7 @@ class Initialize(commands.Cog):
         selected_game = random.choice(presence_games)
         await self.bot.change_presence(activity=discord.Game(selected_game))
 
-    @tasks.loop(minutes=30)
+    @tasks.loop(minutes=30, reconnect=True)
     async def update_presence_auto(self):
         await self.set_presence()
 

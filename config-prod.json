@@ -231,5 +231,19 @@
     "question_channels": {
       "op-questions-for-staff": 715691901130506250
     }
+  },
+
+  "alert_unofficial_start": {
+    "alert_receive_channels": [
+      {
+        "comment": "NA LFP",
+        "channel": 715692832043696270
+      },
+      {
+        "comment": "EU LFP",
+        "channel": 715692867196289097
+      }
+    ],
+    "alert_send_channel": 735139991675469885
   }
 }

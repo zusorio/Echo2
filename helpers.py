@@ -23,6 +23,7 @@ class Config:
         self.delete_match_regex = self.config_object["delete_match_regex"]
         self.warn_wrong_battletags = self.config_object["warn_wrong_battletags"]
         self.auto_question_answer = self.config_object["auto_question_answer"]
+        self.alert_unofficial_start = self.config_object["alert_unofficial_start"]
 
 
 class Credentials:

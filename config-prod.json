@@ -234,44 +234,44 @@
     ],
     "types": {
       "NA PC Regular": {
-        "reminder_channel": 717850110595170314,
-        "reminder_role": 717863900204236865,
-        "announce_channel": 715692963358834828
+        "reminder_channel": 717850078038982768,
+        "reminder_role": 717863514215284767,
+        "announce_channel": 735139991675469885
       },
       "NA PC Coached": {
         "reminder_channel": 717850028294799430,
         "reminder_role": 717864045608173578,
-        "announce_channel": 715695780186292225
+        "announce_channel": 735139991675469885
       },
       "EU PC Regular": {
-        "reminder_channel": 717850078038982768,
-        "reminder_role": 717863514215284767,
-        "announce_channel": 715693003683004456
+        "reminder_channel": 717850110595170314,
+        "reminder_role": 717863900204236865,
+        "announce_channel": 735139991675469885
       },
       "EU PC Coached": {
         "reminder_channel": 717850028294799430,
         "reminder_role": 717864045608173578,
-        "announce_channel": 715695780186292225
+        "announce_channel": 735139991675469885
       },
       "NA PS4": {
         "reminder_channel": 717850142950293634,
         "reminder_role": 717864136448409601,
-        "announce_channel": 715696495470444725
+        "announce_channel": 735139991675469885
       },
       "EU PS4": {
         "reminder_channel": 717850142950293634,
         "reminder_role": 717864136448409601,
-        "announce_channel": 715696495470444725
+        "announce_channel": 735139991675469885
       },
       "NA XBOX": {
         "reminder_channel": 717850176089358377,
         "reminder_role": 717864248818008084,
-        "announce_channel": 715697296007757886
+        "announce_channel": 735139991675469885
       },
       "EU XBOX": {
         "reminder_channel": 717850176089358377,
         "reminder_role": 717864248818008084,
-        "announce_channel": 715697296007757886
+        "announce_channel": 735139991675469885
       }
     }
   },

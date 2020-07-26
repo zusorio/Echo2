@@ -36,7 +36,7 @@ class Analytics(commands.Cog):
                 if active_pug[0]["id"] not in pug_list:
                     pug_list.append(active_pug[0]["id"])
                 self.pug_participants.update(record_id=str(pug_participant[0]["id"]),
-                                             fields={"Nickname": member.display_name, "Username": member.name, "Participated PUGs": pug_list})
+                                             fields={"Nickname": member.display_name, "Username": member.name, "Tag": member.discriminator, "Participated PUGs": pug_list})
             else:
                 self.pug_participants.insert(
-                    {"User ID": str(member.id), "Nickname": member.display_name, "Username": member.name, "Participated PUGs": [active_pug[0]["id"]]})
+                    {"User ID": str(member.id), "Nickname": member.display_name, "Username": member.name, "Tag": member.discriminator, "Participated PUGs": [active_pug[0]["id"]]})

@@ -27,7 +27,7 @@ class Analytics(commands.Cog):
                                                maxRecords=1,
                                                sort=[('Time (in GMT)', 'desc')])
             pug_participant = self.pug_participants.get_all(view="Grid view",
-                                                            formula=f"{'{'}User ID{'}'} = {member.id}")
+                                                            formula=f"{'{'}User ID{'}'} = '{member.id}'")
             if pug_participant:
                 if pug_participant[0]["fields"].get("Participated PUGs"):
                     pug_list = pug_participant[0]["fields"]["Participated PUGs"]
@@ -35,8 +35,8 @@ class Analytics(commands.Cog):
                     pug_list = []
                 if active_pug[0]["id"] not in pug_list:
                     pug_list.append(active_pug[0]["id"])
-                self.pug_participants.update(record_id=pug_participant[0]["id"],
+                self.pug_participants.update(record_id=str(pug_participant[0]["id"]),
                                              fields={"Nickname": member.display_name, "Username": member.name, "Participated PUGs": pug_list})
             else:
                 self.pug_participants.insert(
-                    {"User ID": member.id, "Nickname": member.display_name, "Username": member.name, "Participated PUGs": [active_pug[0]["id"]]})
+                    {"User ID": str(member.id), "Nickname": member.display_name, "Username": member.name, "Participated PUGs": [active_pug[0]["id"]]})

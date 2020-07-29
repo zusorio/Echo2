@@ -42,7 +42,7 @@ class Announce(commands.Cog):
 
             # If the row is invalid ignore it
             if not is_valid:
-                self.log.warning(f"Ignoring {fields['PUG ID']} due to missing fields")
+                self.log.info(f"Ignoring {fields['PUG ID']} due to missing fields")
                 continue
 
             pug_template = [template for template in templates if template["id"] == fields["Announce Template"][0]][0]

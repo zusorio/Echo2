@@ -26,6 +26,7 @@ class Config:
         self.announce = self.config_object["announce"]
         self.alert_unofficial_start = self.config_object["alert_unofficial_start"]
         self.analytics = self.config_object["analytics"]
+        self.most_active = self.config_object["most_active"]
 
 
 class Credentials:

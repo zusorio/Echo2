@@ -25,11 +25,11 @@ async def send_ping(message: discord.Message, users_to_mention: list):
     """
     # Create an embed
     embed = discord.Embed(title=f"{message.author.display_name} said:", description=f"{message.content}", colour=discord.Colour(0x358bbb))
+    embed.set_footer(text=f"Ping by Echo | {message.id}", icon_url="https://cdn.discordapp.com/app-icons/581523092363411493/9f85d39eb6321ad12b2d13396c4595f5.png?size=256")
     # Create a string of all the users separated by \n
     users_string = "\n".join(user.mention for user in users_to_mention)
     # Post the message
-    await message.channel.send(embed=embed)
-    await message.channel.send(users_string)
+    await message.channel.send(content=users_string, embed=embed)
 
 
 class PingForMessages(commands.Cog):
@@ -44,9 +44,9 @@ class PingForMessages(commands.Cog):
         # Get all the messages in the channel
         async for message in message_to_check.channel.history():
             # If the message has any embeds and the bot made the message
-            if message.embeds and message.author == self.bot.user:
-                # If the embed for the message contains the message return True
-                if message_to_check.content == message.embeds[0].description:
+            if len(message.embeds) != 0 and message.author == self.bot.user:
+                # If the footer contains the id of the message we pinged for earlier send that
+                if message.embeds[0].footer.split("|").replace(" ", "") == str(message_to_check.id):
                     return True
         return False
 

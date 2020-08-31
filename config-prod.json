@@ -178,7 +178,7 @@
       "comment": "Jayne Bnets",
       "channel_id": 740691152780525651,
       "public_required": true,
-      "level_25_required" false
+      "level_25_required": false
     }
   ],
   "auto_question_answer": {

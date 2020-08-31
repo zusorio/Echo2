@@ -173,12 +173,6 @@
       "channel_id": 715695642638549012,
       "public_required": true,
       "level_25_required": true
-    },
-    {
-      "comment": "Events",
-      "channel_id": 741842711740678145,
-      "public_required": true,
-      "level_25_required": false
     }
   ],
   "auto_question_answer": {

@@ -72,9 +72,12 @@ class WarnWrongBattletags(commands.Cog):
                                 return
                         # If the player has a private profile warn them if it's enabled for the current channel
                         if player.private and channel["public_required"]:
-                            await message.channel.send(
-                                f"{message.author.mention} Just a reminder, your profile **needs to be public** when you play in PUGs!\n"
-                                f"If it's **already public ignore this**, I'll see it next time once you've restarted your game!")
+                            if channel.get("jayne") is True:
+                                await message.channel.send(f"{message.author.mention} Please remember to public your profile!")
+                            else:
+                                await message.channel.send(
+                                    f"{message.author.mention} Just a reminder, your profile **needs to be public** when you play in PUGs!\n"
+                                    f"If it's **already public ignore this**, I'll see it next time once you've restarted your game!")
                             return
                         # If the player is below level 25 warn them if it's enabled for the current channel
                         if player.actual_level < 25 and channel["level_25_required"]:

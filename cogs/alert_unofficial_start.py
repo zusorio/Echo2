@@ -23,16 +23,20 @@ class AlertUnofficialStart(commands.Cog):
                 # If the message is in the correct channel and isn't protected or a lobby info (Lobby UA)
                 if message.channel.id == alert_channel["channel"]:
                     try:
-                        reacted_messages = await self.bot.wait_for('reaction_add', timeout=60)
-                        was_reacted = len(reacted_messages) >= 2
-                        if was_reacted:
-                            self.log.warning(f"Unofficial PUG starting explainer sent")
-                            channel = self.bot.get_channel(self.config.alert_unofficial_start["alert_send_channel"])
-                            embed = discord.Embed(title="Someone is trying to start an unofficial PUG!", description=message.content, color=0x358bbb)
-                            embed.add_field(name="How to join", value=f"Go to <#{message.channel.id}> and react to the post, then join when you get pinged", inline=False)
-                            embed.add_field(name="I can't see the channel", value=f"Go to <#718355765517090848> and give yourself the PUG role", inline=True)
-                            embed.add_field(name="The message is gone!", value=f"We periodically delete old messages. Feel free to make a new post though!", inline=True)
-                            embed.set_author(name=message.author.display_name, icon_url=message.author.avatar_url)
-                            await channel.send(embed=embed)
+                        # We wait for a reaction to exactly that message by the user that sent it before sending an explainer
+                        def check(reaction: discord.Reaction, user: discord.User):
+                            return message.author == user and reaction.message == message
+
+                        await self.bot.wait_for('reaction_add', timeout=60, check=check)
+
                     except asyncio.TimeoutError:
                         pass
+                    else:
+                        self.log.warning(f"Unofficial PUG starting explainer sent")
+                        channel = self.bot.get_channel(self.config.alert_unofficial_start["alert_send_channel"])
+                        embed = discord.Embed(title="Someone is trying to start an unofficial PUG!", description=message.content, color=0x358bbb)
+                        embed.add_field(name="How to join", value=f"Go to <#{message.channel.id}> and react to the post, then join when you get pinged", inline=False)
+                        embed.add_field(name="I can't see the channel", value=f"Go to <#718355765517090848> and give yourself the PUG role", inline=True)
+                        embed.add_field(name="The message is gone!", value=f"We periodically delete old messages. Feel free to make a new post though!", inline=True)
+                        embed.set_author(name=message.author.display_name, icon_url=message.author.avatar_url)
+                        await channel.send(embed=embed)

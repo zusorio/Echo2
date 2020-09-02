@@ -73,6 +73,9 @@ class MostActive(commands.Cog):
 
     @commands.command()
     async def most_active(self, ctx: commands.Context, limit: int = 10, *, human_timespan: str = "1 week"):
+        if ctx.guild.id not in self.config.most_active["enabled_guilds"]:
+            self.log.warning(f"Unpermitted use in guild {ctx.guild.id} by {ctx.author.id}")
+            return
         await ctx.trigger_typing()
 
         timespan = get_previous_weeks(humanfriendly.parse_timespan(human_timespan))

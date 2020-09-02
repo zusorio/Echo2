@@ -319,6 +319,10 @@
   },
   "most_active": {
     "airtable_base": "app4xCZNkqUptCUxE",
-    "auto_channel": 676523917434814516
+    "auto_channel": 676523917434814516,
+    "enabled_guilds": [
+      440799818068000769,
+      249222991395684354
+    ]
   }
 }

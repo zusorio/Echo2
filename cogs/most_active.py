@@ -22,7 +22,7 @@ class MostActive(commands.Cog):
         self.pug_participants = Airtable(self.config.most_active["airtable_base"], "PUG Participants",
                                          api_key=airtable_api_key)
         self.pug_list = Airtable(self.config.most_active["airtable_base"], "PUG List", api_key=airtable_api_key)
-        self.post_most_active_automatically.start()
+        # self.post_most_active_automatically.start()
 
     async def get_most_active_players(self, start_time: datetime, end_time: datetime):
         timespan_pug_list = self.pug_list.get_all(view="Bot View",

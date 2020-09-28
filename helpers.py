@@ -2,6 +2,7 @@ import json
 import codecs
 import discord
 import logging
+import aiohttp
 from typing import List
 
 
@@ -27,6 +28,7 @@ class Config:
         self.alert_unofficial_start = self.config_object["alert_unofficial_start"]
         self.analytics = self.config_object["analytics"]
         self.most_active = self.config_object["most_active"]
+        self.jts_bnets = self.config_object["jts_bnets"]
 
 
 class Credentials:
@@ -48,3 +50,29 @@ def log_message_deletes(messages: List[discord.Message], action_name: str, log: 
         messages_formatted = '\n  '.join([f"{message.content} by {message.author.display_name}" if message.content else f"embed by {message.author.display_name}" for message in messages])
         log.warning(f"{action_name} deleted {len(messages)} messages:\n"
                     f"  {messages_formatted}")
+
+
+async def get_possible_correct_tag(wrong_battletag: str):
+    async with aiohttp.ClientSession() as session:
+        # If they messed up their capitalization this will return the correct capitalization
+        # Replace # with %23 as hashtag is not auto encoded for some reason
+        async with session.get(
+                f"https://playoverwatch.com/en-us/search/account-by-name/{wrong_battletag.replace('#', '%23')}") as r:
+            if r.status == 200:
+                profiles = await r.json()
+                # Filter the data to only include PC battletags
+                profiles = [profile for profile in profiles if profile["platform"] == "pc"]
+                # If we have one match that must be it
+                if len(profiles) == 1:
+                    return profiles[0]["name"]
+        # If they messed up their numbers as well see if their bnet name is unique
+        async with session.get(
+                f"https://playoverwatch.com/en-us/search/account-by-name/{wrong_battletag.split('#')[0]}") as r:
+            if r.status == 200:
+                profiles = await r.json()
+                # Filter the data to only include PC battletags
+                profiles = [profile for profile in profiles if profile["platform"] == "pc"]
+                # If we have one match that must be it
+                if len(profiles) == 1:
+                    return profiles[0]["name"]
+        return False

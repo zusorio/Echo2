@@ -6,7 +6,7 @@ import logging
 from discord_handler import DiscordHandler
 from cogs import clean_old_messages, ping_for_messages, disable_reacts, vet_ping_unofficials, purge_channel, \
     reacts_required, delete_match_regex, initialize, warn_wrong_battletags, auto_question_answer, announce, \
-    alert_unofficial_start, analytics, most_active
+    alert_unofficial_start, analytics, most_active, jts_bnets
 
 
 def main():
@@ -55,6 +55,7 @@ def main():
     bot.add_cog(alert_unofficial_start.AlertUnofficialStart(bot, config, log))
     bot.add_cog(analytics.Analytics(bot, config, log, credentials.airtable_api_key))
     bot.add_cog(most_active.MostActive(bot, config, log, credentials.airtable_api_key))
+    bot.add_cog(jts_bnets.JTSBnets(bot, config, log))
     bot.add_cog(initialize.Initialize(bot, config, log))
 
     # Start bot

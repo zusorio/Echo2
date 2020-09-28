@@ -29,6 +29,7 @@ class Config:
         self.analytics = self.config_object["analytics"]
         self.most_active = self.config_object["most_active"]
         self.jts_bnets = self.config_object["jts_bnets"]
+        self.jts_lock = self.config_object["jts_lock"]
 
 
 class Credentials:

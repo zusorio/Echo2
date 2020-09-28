@@ -173,6 +173,12 @@
       "channel_id": 715695642638549012,
       "public_required": true,
       "level_25_required": true
+    },
+    {
+      "comment": "EHE Supporters",
+      "channel_id": 741842711740678145,
+      "public_required": true,
+      "level_25_required": false
     }
   ],
   "auto_question_answer": {
@@ -324,5 +330,14 @@
     "admin_channel_id": 740693235277758474,
     "sr_limit": 2500,
     "sr_enforce": false
+  },
+  "jts_lock": {
+    "sr_channel_id": 740691152780525651,
+    "admin_channel_id": 740693235277758474,
+    "guild": 352681852961685524,
+    "modify_roles": [
+      384263789198966784,
+      735472913431527584
+    ]
   }
 }

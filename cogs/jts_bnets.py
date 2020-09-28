@@ -60,7 +60,9 @@ class JTSBnets(commands.Cog):
                         return
                     # Player above JTS limit
                     player_srs = [player.competitive_tank, player.competitive_damage, player.competitive_support]
-                    if all([player_sr > self.config.jts_bnets["sr_limit"] for player_sr in player_srs]) and self.sr_enforce:
+                    player_srs = [player_sr for player_sr in player_srs if player_sr is not False]
+                    if all([player_sr > self.config.jts_bnets["sr_limit"] for player_sr in
+                            player_srs]) and self.sr_enforce:
                         await message.channel.send(
                             f"{message.author.mention} You cannot participate in these PUGs, your SR is too high")
                         await message.add_reaction("❌")

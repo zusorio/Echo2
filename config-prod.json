@@ -173,13 +173,6 @@
       "channel_id": 715695642638549012,
       "public_required": true,
       "level_25_required": true
-    },
-    {
-      "comment": "Jayne Bnets",
-      "channel_id": 740691152780525651,
-      "public_required": true,
-      "level_25_required": false,
-      "jayne": true
     }
   ],
   "auto_question_answer": {
@@ -324,5 +317,12 @@
       440799818068000769,
       249222991395684354
     ]
+  },
+  "jts_bnets": {
+    "comment": "JTS Bnet Channel",
+    "sr_channel_id": 740691152780525651,
+    "admin_channel_id": 740693235277758474,
+    "sr_limit": 2500,
+    "sr_enforce": false
   }
 }

@@ -4,31 +4,7 @@ from discord.ext import commands
 import helpers
 import pyowapi
 import re
-import aiohttp
-
-
-async def get_possible_correct_tag(wrong_battletag: str):
-    async with aiohttp.ClientSession() as session:
-        # If they messed up their capitalization this will return the correct capitalization
-        # Replace # with %23 as hashtag is not auto encoded for some reason
-        async with session.get(f"https://playoverwatch.com/en-us/search/account-by-name/{wrong_battletag.replace('#', '%23')}") as r:
-            if r.status == 200:
-                profiles = await r.json()
-                # Filter the data to only include PC battletags
-                profiles = [profile for profile in profiles if profile["platform"] == "pc"]
-                # If we have one match that must be it
-                if len(profiles) == 1:
-                    return profiles[0]["name"]
-        # If they messed up their numbers as well see if their bnet name is unique
-        async with session.get(f"https://playoverwatch.com/en-us/search/account-by-name/{wrong_battletag.split('#')[0]}") as r:
-            if r.status == 200:
-                profiles = await r.json()
-                # Filter the data to only include PC battletags
-                profiles = [profile for profile in profiles if profile["platform"] == "pc"]
-                # If we have one match that must be it
-                if len(profiles) == 1:
-                    return profiles[0]["name"]
-        return False
+from helpers import get_possible_correct_tag
 
 
 class WarnWrongBattletags(commands.Cog):
@@ -73,7 +49,8 @@ class WarnWrongBattletags(commands.Cog):
                         # If the player has a private profile warn them if it's enabled for the current channel
                         if player.private and channel["public_required"]:
                             if channel.get("jayne") is True:
-                                await message.channel.send(f"{message.author.mention} Please remember to public your profile!")
+                                await message.channel.send(
+                                    f"{message.author.mention} Please remember to public your profile!")
                             else:
                                 await message.channel.send(
                                     f"{message.author.mention} Just a reminder, your profile **needs to be public** when you play in PUGs!\n"
@@ -81,5 +58,6 @@ class WarnWrongBattletags(commands.Cog):
                             return
                         # If the player is below level 25 warn them if it's enabled for the current channel
                         if player.actual_level < 25 and channel["level_25_required"]:
-                            await message.channel.send(f"{message.author.mention} Your account is below level 25, official pugs require a **placed** account!")
+                            await message.channel.send(
+                                f"{message.author.mention} Your account is below level 25, official pugs require a **placed** account!")
                             return

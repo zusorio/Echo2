@@ -328,8 +328,10 @@
     "comment": "JTS Bnet Channel",
     "sr_channel_id": 740691152780525651,
     "admin_channel_id": 740693235277758474,
-    "sr_limit": 2500,
-    "sr_enforce": false
+    "sr_limit_low": 2500,
+    "sr_min_high": 2500,
+    "sr_limit_high": 3500,
+    "sr_enforce": 0
   },
   "jts_lock": {
     "sr_channel_id": 740691152780525651,

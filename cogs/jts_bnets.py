@@ -68,9 +68,9 @@ class JTSBnets(commands.Cog):
                     all_accounts_below_high_minimum = all(
                         [player_sr < self.config.jts_bnets["sr_min_high"] for player_sr in player_srs]
                     )
-                    all_accounts_above_high_limit = all(
-                        [player_sr > self.config.jts_bnets["sr_limit_high"] for player_sr in player_srs]
-                    )
+                    # all_accounts_above_high_limit = all(
+                    #     [player_sr > self.config.jts_bnets["sr_limit_high"] for player_sr in player_srs]
+                    # )
                     if two_accounts_above_low_limit and self.sr_enforce == 1:
                         await message.channel.send(
                             f"{message.author.mention} You cannot participate in these PUGs, your SR is too high")
@@ -79,10 +79,10 @@ class JTSBnets(commands.Cog):
                         await message.channel.send(
                             f"{message.author.mention} You cannot participate in these PUGs, your SR is too low 😢")
                         await message.add_reaction("❌")
-                    elif all_accounts_above_high_limit and self.sr_enforce == 2:
-                        await message.channel.send(
-                            f"{message.author.mention} You cannot participate in these PUGs, your SR is too high")
-                        await message.add_reaction("❌")
+                    # elif all_accounts_above_high_limit and self.sr_enforce == 2:
+                    #     await message.channel.send(
+                    #         f"{message.author.mention} You cannot participate in these PUGs, your SR is too high")
+                    #     await message.add_reaction("❌")
 
     @commands.command()
     async def enable_sr_low(self, ctx: commands.Context):

@@ -329,7 +329,7 @@
     "sr_channel_id": 740691152780525651,
     "admin_channel_id": 740693235277758474,
     "sr_limit_low": 2500,
-    "sr_min_high": 2500,
+    "sr_min_high": 3250,
     "sr_limit_high": 3500,
     "sr_enforce": 0
   },

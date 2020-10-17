@@ -52,7 +52,7 @@ class JTSBnets(commands.Cog):
                     # If the player has a private profile warn them if it's enabled for the current channel
                     if player.private:
                         await message.channel.send(
-                            f"{message.author.mention} Please remember to public your profile!\nIf it's public ignore me!\n(No need to repost your tag)")
+                            f"{message.author.mention} Please remember to public your profile (**__if it is public ignore this, don't repost your bnet**__)!")
                         return
                     # If the player is below level 25 warn them if it's enabled for the current channel
                     if player.actual_level < 25:
@@ -100,10 +100,12 @@ class JTSBnets(commands.Cog):
                                 await message.channel.send(
                                     f"{message.author.mention} You cannot participate in these PUGs, your SR is too low 😢")
                                 await message.add_reaction("❌")
+                                return
                             elif rule_triggered and rule["mode"] == "max":
                                 await message.channel.send(
                                     f"{message.author.mention} You cannot participate in these PUGs, your SR is too high")
                                 await message.add_reaction("❌")
+                                return
 
     @commands.command()
     async def sr_preset(self, ctx: commands.Context, mode_name: str):

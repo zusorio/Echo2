@@ -111,7 +111,7 @@ class JTSBnets(commands.Cog):
             self.preset = mode_name
             presets = [preset for preset in self.config.jts_bnets["presets"] if preset["name"] == self.preset]
             # If we can't find exactly 1 preset error
-            if len(presets) != 1 and mode_name != "off":
+            if len(presets) != 1:
                 await ctx.send("Hmm, I can't find that preset!")
                 return
             # Set preset to the only preset

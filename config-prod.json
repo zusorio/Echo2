@@ -379,8 +379,14 @@
           {
             "mode": "min",
             "sr": 3500,
-            "count_for_fail": "any"
+            "count_for_fail": "2"
           }
+        ]
+      },
+      {
+        "name": "off",
+        "channel_description": "",
+        "rules": [
         ]
       }
     ]

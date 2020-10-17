@@ -357,7 +357,7 @@
         ]
       },
       {
-        "name": "lfg-low",
+        "name": "lfg_low",
         "channel_description": "Post your battletag if your SR is ⚠between 2500 and 3500 on at least 2 roles⚠",
         "rules": [
           {
@@ -373,7 +373,7 @@
         ]
       },
       {
-        "name": "lfg-high",
+        "name": "lfg_high",
         "channel_description": "Post your battletag if your SR is ⚠above 3500 at least 2 roles⚠",
         "rules": [
           {

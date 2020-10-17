@@ -1,6 +1,6 @@
 import logging
 from typing import List
-
+import json
 import discord
 from discord.ext import commands
 from helpers import get_possible_correct_tag
@@ -19,7 +19,7 @@ class JTSBnets(commands.Cog):
         self.bot = bot
         self.config = config
         self.log = log
-        self.preset = False
+        self.preset = "off"
         self.log.info("Loaded Cog JTSBnets")
 
     @commands.Cog.listener()
@@ -122,3 +122,15 @@ class JTSBnets(commands.Cog):
             # Edit channel to preset's description
             channel: discord.TextChannel = self.bot.get_channel(self.config.jts_bnets["sr_channel_id"])
             await channel.edit(topic=preset["channel_description"])
+
+    @commands.command()
+    async def current_preset(self, ctx: commands.Context):
+        if ctx.channel.id == self.config.jts_bnets["admin_channel_id"]:
+            presets = [preset for preset in self.config.jts_bnets["presets"] if preset["name"] == self.preset]
+            # If we can't find exactly 1 preset error
+            if len(presets) != 1:
+                await ctx.send(f"Hmm, I can't find the selected preset {self.preset}!")
+                return
+            else:
+                preset = presets[0]
+                await ctx.send(f"```json\n{json.dumps(preset, indent=4, sort_keys=True)}```")

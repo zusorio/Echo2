@@ -1,3 +1,4 @@
+import asyncio
 import logging
 import discord
 from discord.ext import commands
@@ -20,11 +21,13 @@ class JTSLock(commands.Cog):
         if ctx.channel.id == self.config.jts_lock["admin_channel_id"]:
             bnet_channel: discord.TextChannel = self.bot.get_channel(self.config.jts_lock["sr_channel_id"])
             target_guild: discord.Guild = self.bot.get_guild(self.config.jts_lock["guild"])
+            new_topic = self.config.jts_lock["lock_text"]
             for role_id in self.config.jts_lock["modify_roles"]:
                 role: discord.Role = target_guild.get_role(role_id)
                 await bnet_channel.set_permissions(role, read_messages=True, send_messages=False)
             await ctx.send("Locked!")
             await ctx.message.add_reaction("✅")
+            await bnet_channel.edit(topic=new_topic)
 
     @commands.command()
     async def unlock(self, ctx: commands.Context):

@@ -328,12 +328,65 @@
     "comment": "JTS Bnet Channel",
     "sr_channel_id": 740691152780525651,
     "admin_channel_id": 740693235277758474,
-    "sr_limit_low": 2500,
-    "sr_min_high": 3250,
-    "sr_limit_high": 3500,
-    "sr_enforce": 0
+    "presets": [
+      {
+        "name": "hard_carry",
+        "channel_description": "Post your battletag if your SR is ⚠below 2500 on at least 2 roles⚠",
+        "rules": [
+          {
+            "mode": "max",
+            "sr": 2500,
+            "count_for_fail": "2"
+          }
+        ]
+      },
+      {
+        "name": "god_mode",
+        "channel_description": "Post your battletag if your SR is ⚠between 2000 and 3000 on least 2 roles⚠",
+        "rules": [
+          {
+            "mode": "min",
+            "sr": 2000,
+            "count_for_fail": "2"
+          },
+          {
+            "mode": "max",
+            "sr": 3000,
+            "count_for_fail": "2"
+          }
+        ]
+      },
+      {
+        "name": "lfg-low",
+        "channel_description": "Post your battletag if your SR is ⚠between 2500 and 3500 on at least 2 roles⚠",
+        "rules": [
+          {
+            "mode": "min",
+            "sr": 2500,
+            "count_for_fail": "2"
+          },
+          {
+            "mode": "max",
+            "sr": 3500,
+            "count_for_fail": "2"
+          }
+        ]
+      },
+      {
+        "name": "lfg-high",
+        "channel_description": "Post your battletag if your SR is ⚠above 3500 at least 2 roles⚠",
+        "rules": [
+          {
+            "mode": "min",
+            "sr": 3500,
+            "count_for_fail": "any"
+          }
+        ]
+      }
+    ]
   },
   "jts_lock": {
+    "lock_text": "🔒 This channel is currently locked. We will ping you when we're looking for participants.",
     "sr_channel_id": 740691152780525651,
     "admin_channel_id": 740693235277758474,
     "guild": 352681852961685524,

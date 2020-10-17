@@ -1,4 +1,6 @@
 import logging
+from typing import List
+
 import discord
 from discord.ext import commands
 from helpers import get_possible_correct_tag
@@ -17,7 +19,7 @@ class JTSBnets(commands.Cog):
         self.bot = bot
         self.config = config
         self.log = log
-        self.sr_enforce = self.config.jts_bnets["sr_enforce"]
+        self.preset = False
         self.log.info("Loaded Cog JTSBnets")
 
     @commands.Cog.listener()
@@ -41,16 +43,16 @@ class JTSBnets(commands.Cog):
                         correct_tag = await get_possible_correct_tag(player.bnet)
                         if correct_tag:
                             await message.channel.send(
-                                f"{message.author.mention} That tag seems wrong! **Did you mean**: {correct_tag}\n(No need to post it again though)")
+                                f"{message.author.mention} That tag seems wrong! **Did you mean**: {correct_tag}? Then edit your message")
                             return
                         else:
                             await message.channel.send(
-                                f"{message.author.mention} That tag seems wrong! **Check if there's a typo!**")
+                                f"{message.author.mention} That tag seems wrong! **Check if there's a typo and then edit your message!**")
                             return
                     # If the player has a private profile warn them if it's enabled for the current channel
                     if player.private:
                         await message.channel.send(
-                            f"{message.author.mention} Please remember to public your profile!\nIf you've already made it public ignore this\n(No need repost your tag)")
+                            f"{message.author.mention} Please remember to public your profile!\nIf it's public ignore \n(No need repost your tag)")
                         return
                     # If the player is below level 25 warn them if it's enabled for the current channel
                     if player.actual_level < 25:
@@ -58,49 +60,65 @@ class JTSBnets(commands.Cog):
                             f"{message.author.mention} You cannot participate unless your account is placed!")
                         await message.add_reaction("❗")
                         return
-                    # Player above JTS limit
-                    player_srs = [player.competitive_tank, player.competitive_damage, player.competitive_support]
-                    player_srs = [player_sr for player_sr in player_srs if player_sr is not False]
-                    # Must be below sr_limit_low on some roles
-                    two_accounts_above_low_limit = sum(
-                        [player_sr > self.config.jts_bnets["sr_limit_low"] for player_sr in player_srs]
-                    ) >= 2
-                    all_accounts_below_high_minimum = all(
-                        [player_sr < self.config.jts_bnets["sr_min_high"] for player_sr in player_srs]
-                    )
-                    # all_accounts_above_high_limit = all(
-                    #     [player_sr > self.config.jts_bnets["sr_limit_high"] for player_sr in player_srs]
-                    # )
-                    if two_accounts_above_low_limit and self.sr_enforce == 1:
-                        await message.channel.send(
-                            f"{message.author.mention} You cannot participate in these PUGs, your SR is too high")
-                        await message.add_reaction("❌")
-                    elif all_accounts_below_high_minimum and self.sr_enforce == 2:
-                        await message.channel.send(
-                            f"{message.author.mention} You cannot participate in these PUGs, your SR is too low 😢")
-                        await message.add_reaction("❌")
-                    # elif all_accounts_above_high_limit and self.sr_enforce == 2:
-                    #     await message.channel.send(
-                    #         f"{message.author.mention} You cannot participate in these PUGs, your SR is too high")
-                    #     await message.add_reaction("❌")
+                    preset = [preset for preset in self.config.jts_bnets["presets"] if preset["name"] == self.preset]
+                    if len(preset) == 1:
+                        # Set preset to first with matching name
+                        preset = preset[0]
+                        # Aggregate Player SR
+                        player_srs = [player.competitive_tank, player.competitive_damage, player.competitive_support]
+                        player_srs = [player_sr for player_sr in player_srs if player_sr is not False]
+                        for rule in preset["rules"]:
+                            # srs_not_matching_rule will be a list containing True for every sr not matching the rule
+                            # and false for srs matching the rule
+                            # so if the max sr is 2500 and the player sr's are 2200, 2400, 2600
+                            # it will be [False, False, True]
+                            srs_not_matching_rule: List[bool]
+                            if rule["mode"] == "min":
+                                srs_not_matching_rule = [player_sr < rule["sr"] for player_sr in player_srs]
+                            elif rule["mode"] == "max":
+                                srs_not_matching_rule = [player_sr >= rule["sr"] for player_sr in player_srs]
+                            else:
+                                # Mode is wrong, ignore the rule
+                                self.log.warning(f"Ignoring rule {preset['name']} due to invalid mode")
+                                continue
+                            # count_for_fail indicates when the rule will fail
+                            if rule["count_for_fail"] == "all":
+                                # If all placed roles are above max/below min
+                                rule_triggered = sum(srs_not_matching_rule) == len(srs_not_matching_rule)
+                            elif rule["count_for_fail"] == "any":
+                                # If any placed roles are above max/below min
+                                rule_triggered = any(srs_not_matching_rule)
+                            elif rule["count_for_fail"] == "2":
+                                # If at least 2 placed roles above max/below min
+                                rule_triggered = sum(srs_not_matching_rule) >= 2
+                            else:
+                                # count_for_fail is wrong, ignore rule
+                                self.log.warning(f"Ignoring rule {preset['name']} due to invalid count_for_fail")
+                                continue
+                            # If the rule got triggered warn the player
+                            if rule_triggered and rule["mode"] == "min":
+                                await message.channel.send(
+                                    f"{message.author.mention} You cannot participate in these PUGs, your SR is too low 😢")
+                                await message.add_reaction("❌")
+                            elif rule_triggered and rule["mode"] == "max":
+                                await message.channel.send(
+                                    f"{message.author.mention} You cannot participate in these PUGs, your SR is too high")
+                                await message.add_reaction("❌")
 
     @commands.command()
-    async def enable_sr_low(self, ctx: commands.Context):
+    async def sr_preset(self, ctx: commands.Context, mode_name: str):
         if ctx.channel.id == self.config.jts_bnets["admin_channel_id"]:
-            self.sr_enforce = 1
+            self.preset = mode_name
+            presets = [preset for preset in self.config.jts_bnets["presets"] if preset["name"] == self.preset]
+            # If we can't find exactly 1 preset error
+            if len(presets) != 1 and mode_name != "off":
+                await ctx.send("Hmm, I can't find that preset!")
+                return
+            # Set preset to the only preset
+            preset = presets[0]
+            # Confirm change to user
             await ctx.message.add_reaction("✅")
-            await ctx.send("Enabled SR enforcement in low mode")
-
-    @commands.command()
-    async def enable_sr_high(self, ctx: commands.Context):
-        if ctx.channel.id == self.config.jts_bnets["admin_channel_id"]:
-            self.sr_enforce = 2
-            await ctx.message.add_reaction("✅")
-            await ctx.send("Enabled SR enforcement in high mode")
-
-    @commands.command()
-    async def disable_sr_enforce(self, ctx: commands.Context):
-        if ctx.channel.id == self.config.jts_bnets["admin_channel_id"]:
-            self.sr_enforce = 0
-            await ctx.message.add_reaction("✅")
-            await ctx.send("Disabled SR enforcement")
+            await ctx.send(f"Set mode to {mode_name}")
+            # Edit channel to preset's description
+            channel: discord.TextChannel = self.bot.get_channel(self.config.jts_bnets["sr_channel_id"])
+            await channel.edit(topic=preset["channel_description"])

@@ -43,7 +43,7 @@ class JTSBnets(commands.Cog):
                         correct_tag = await get_possible_correct_tag(player.bnet)
                         if correct_tag:
                             await message.channel.send(
-                                f"{message.author.mention} That tag seems wrong! **Did you mean**: {correct_tag}? Then edit your message")
+                                f"{message.author.mention} That tag seems wrong! **Did you mean**: {correct_tag}? Then edit your message!")
                             return
                         else:
                             await message.channel.send(
@@ -52,7 +52,7 @@ class JTSBnets(commands.Cog):
                     # If the player has a private profile warn them if it's enabled for the current channel
                     if player.private:
                         await message.channel.send(
-                            f"{message.author.mention} Please remember to public your profile!\nIf it's public ignore \n(No need repost your tag)")
+                            f"{message.author.mention} Please remember to public your profile!\nIf it's public ignore me!\n(No need to repost your tag)")
                         return
                     # If the player is below level 25 warn them if it's enabled for the current channel
                     if player.actual_level < 25:

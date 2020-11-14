@@ -52,7 +52,7 @@ class JTSBnets(commands.Cog):
                     # If the player has a private profile warn them if it's enabled for the current channel
                     if player.private:
                         await message.channel.send(
-                            f"{message.author.mention} Please remember to public your profile (**__if it is public ignore this, don't repost your bnet**__)!")
+                            f"{message.author.mention} Please remember to public your profile (**__if it is public ignore this, don't repost your bnet__**)!")
                         return
                     # If the player is below level 25 warn them if it's enabled for the current channel
                     if player.actual_level < 25:

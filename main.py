@@ -1,4 +1,6 @@
 import discord
+import sentry_sdk
+
 from discord.ext import commands
 from helpers import Config, Credentials
 import logging
@@ -7,6 +9,11 @@ from discord_handler import DiscordHandler
 from cogs import clean_old_messages, ping_for_messages, disable_reacts, vet_ping_unofficials, purge_channel, \
     reacts_required, delete_match_regex, initialize, warn_wrong_battletags, auto_question_answer, announce, \
     alert_unofficial_start, analytics, most_active, jts_bnets, jts_lock
+
+sentry_sdk.init(
+    "https://e5ceb20bb7f14c9bb04dcd723b83c559@o480512.ingest.sentry.io/5527831",
+    traces_sample_rate=1.0
+)
 
 
 def main():

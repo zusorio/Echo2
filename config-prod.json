@@ -358,17 +358,12 @@
       },
       {
         "name": "lfg_low",
-        "channel_description": "Post your battletag if your SR is ⚠between 2500 and 3500 on at least 2 roles⚠",
+        "channel_description": "Post your battletag if your SR is ⚠below 2000 on all roles⚠",
         "rules": [
           {
-            "mode": "min",
-            "sr": 2500,
-            "count_for_fail": "2"
-          },
-          {
             "mode": "max",
-            "sr": 3500,
-            "count_for_fail": "2"
+            "sr": 2000,
+            "count_for_fail": "any"
           }
         ]
       },

@@ -244,12 +244,22 @@
         "reminder_role": 717863514215284767,
         "announce_channel": 735139991675469885
       },
+      "NA PC Plat-": {
+        "reminder_channel": 717850078038982768,
+        "reminder_role": 717863514215284767,
+        "announce_channel": 735139991675469885
+      },
       "NA PC Coached": {
         "reminder_channel": 717850028294799430,
         "reminder_role": 717864045608173578,
         "announce_channel": 735139991675469885
       },
       "EU PC Regular": {
+        "reminder_channel": 717850110595170314,
+        "reminder_role": 717863900204236865,
+        "announce_channel": 735139991675469885
+      },
+      "EU PC Plat-": {
         "reminder_channel": 717850110595170314,
         "reminder_role": 717863900204236865,
         "announce_channel": 735139991675469885

@@ -57,7 +57,7 @@ class PugPoints(commands.Cog):
                 messages.append(f"You have gained the role **{reward['name']}** for being an active Captain!")
             if point_count < reward["required_points"] and reward["role_id"] in member_roles:
                 remove_roles.append(discord.utils.get(member.guild.roles, id=reward["role_id"]))
-                messages.append(f"Your role **{reward['name']}** has decayed. ScrimBux expire after one month.")
+                messages.append(f"Your role **{reward['name']}** has decayed. PUG Points expire after one month.")
         if add_roles:
             await member.add_roles(*add_roles)
         if remove_roles:
@@ -107,7 +107,7 @@ class PugPoints(commands.Cog):
              "Captain": [captain_record_id]})
 
         new_point_count = self.look_up_user_points(member.id)
-        await ctx.send(f"{member.display_name} now has {new_point_count} ScrimBux")
+        await ctx.send(f"{member.display_name} now has {new_point_count} PUG Points")
 
         role_messages = await self.award_roles(member, new_point_count)
         for message in role_messages:
@@ -118,10 +118,30 @@ class PugPoints(commands.Cog):
         await ctx.trigger_typing()
         if member:
             point_count = self.look_up_user_points(member.id)
-            await ctx.send(f"{member.display_name} has {point_count} ScrimBux")
+            await ctx.send(f"{member.display_name} has {point_count} PUG Points")
         else:
             point_count = self.look_up_user_points(ctx.author.id)
-            await ctx.send(f"You have {point_count} ScrimBux")
+            await ctx.send(f"You have {point_count} PUG Points")
+
+    @commands.command()
+    async def leaderboard(self, ctx: commands.Context):
+        await ctx.trigger_typing()
+        role_guild = self.bot.get_guild(self.config.pug_points["target_guild"])
+        pug_captains = self.pug_captains.get_all(view="Grid view")
+        point_transactions = self.pug_point_transactions.get_all(view="Grid view")
+        players = []
+        for captain in pug_captains:
+            point_count = self.calculate_user_points([point_transaction for point_transaction in point_transactions if
+                                                      point_transaction["fields"]["Captain"] == [captain["id"]]])
+            captain_member = role_guild.get_member(int(captain["fields"]["User ID"]))
+            players.append({"points": point_count, "mention": captain_member.mention})
+        sorted_players = sorted(players, key=lambda k: k["points"])
+        sorted_players = sorted_players[:10]
+        sorted_players_text = ""
+        for count, player in enumerate(sorted_players):
+            sorted_players_text += f"{count + 1}. {player['mention']}: {player['points']} PUG Points\n"
+        embed = discord.Embed(title="PUG Point leaderboard", description=sorted_players_text)
+        await ctx.send(embed=embed)
 
     @give_points.error
     async def give_points_error(self, ctx: commands.Context, error):
@@ -134,3 +154,8 @@ class PugPoints(commands.Cog):
         self.log.warning(f"Got {error}")
         await ctx.send(
             "Got an error while trying to run that command! Make sure to do `!balance` or `!balance SomeUser#1234`")
+
+    @leaderboard.error
+    async def leaderboard_error(self, ctx: commands.Context, error):
+        self.log.warning(f"Got {error}")
+        await ctx.send("Got an error while trying to run that command!")

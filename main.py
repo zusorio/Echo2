@@ -45,8 +45,12 @@ def main():
     webhook_handler.setFormatter(format)
     log.addHandler(webhook_handler)
 
+    intents = discord.Intents.all()
+    intents.typing = True
+    intents.presences = True
+
     # Initialize bot object
-    bot = commands.Bot(command_prefix=config.bot_prefix)
+    bot = commands.Bot(command_prefix=config.bot_prefix, intents=intents)
 
     # Load cogs
     bot.add_cog(clean_old_messages.CleanOldMessages(bot, config, log))

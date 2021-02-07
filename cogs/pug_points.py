@@ -1,10 +1,12 @@
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Optional
 
+import asyncio
 import discord
+import discord.utils
 from airtable import Airtable
-from discord.ext import commands
+from discord.ext import commands, tasks
 
 import helpers
 
@@ -20,12 +22,65 @@ class PugPoints(commands.Cog):
         self.pug_captains = Airtable(self.config.pug_points["airtable_base"], "Captains", api_key=airtable_api_key)
         self.pug_point_transactions = Airtable(self.config.pug_points["airtable_base"], "Point Transactions",
                                                api_key=airtable_api_key)
+        self.initialize.start()
 
-    def get_user_points(self, user_id: int) -> int:
+    @tasks.loop(seconds=1, count=1)
+    async def initialize(self):
+        # wait until bot is fully ready before starting task, otherwise it breaks
+        await self.bot.wait_until_ready()
+        # wait for the bot to process the channels and members
+        await asyncio.sleep(10)
+        self.update_all_roles.start()
+        self.log.info("PugPoints is fully ready")
+
+    def calculate_user_points(self, transactions):
+        count = 0
+        for point_transaction in transactions:
+            point_expiry_date = datetime.strptime(point_transaction["fields"]["Lasts Until"], "%Y-%m-%dT%H:%M:%S.%fZ")
+            if point_expiry_date - datetime.utcnow() > timedelta(seconds=0):
+                count += point_transaction["fields"]["Point Count"]
+        return count
+
+    def look_up_user_points(self, user_id: int) -> int:
         point_transactions = self.pug_point_transactions.get_all(view="Grid view",
                                                                  formula=f"{'{'}Captain{'}'} = '{user_id}'")
-        count = sum([point_transaction["fields"]["Point Count"] for point_transaction in point_transactions])
-        return count
+        return self.calculate_user_points(point_transactions)
+
+    async def award_roles(self, member: discord.Member, point_count: int):
+        add_roles = []
+        remove_roles = []
+        messages = []
+        member_roles = [role.id for role in member.roles]
+        for reward in self.config.pug_points["rewards"]:
+            if point_count >= reward["required_points"] and not reward["role_id"] in member_roles:
+                add_roles.append(discord.utils.get(member.guild.roles, id=reward["role_id"]))
+                messages.append(f"You have gained the role **{reward['name']}** for being an active Captain!")
+            if point_count < reward["required_points"] and reward["role_id"] in member_roles:
+                remove_roles.append(discord.utils.get(member.guild.roles, id=reward["role_id"]))
+                messages.append(f"Your role **{reward['name']}** has decayed. ScrimBux expire after one month.")
+        if add_roles:
+            await member.add_roles(*add_roles)
+        if remove_roles:
+            await member.remove_roles(*remove_roles)
+        return messages
+
+    @tasks.loop(seconds=60)
+    async def update_all_roles(self):
+        notification_channel = self.bot.get_channel(self.config.pug_points["notification_channel_id"])
+        role_guild = self.bot.get_guild(self.config.pug_points["target_guild"])
+
+        pug_captains = self.pug_captains.get_all(view="Grid view")
+        point_transactions = self.pug_point_transactions.get_all(view="Grid view")
+        for captain in pug_captains:
+            point_count = self.calculate_user_points([point_transaction for point_transaction in point_transactions if
+                                                      point_transaction["fields"]["Captain"] == [captain["id"]]])
+            captain_member = role_guild.get_member(int(captain["fields"]["User ID"]))
+            if not captain_member:
+                self.log.warning(f"Captain ID {captain['fields']['User ID']} is malformed")
+                continue
+            role_messages = await self.award_roles(captain_member, point_count)
+            for message in role_messages:
+                await notification_channel.send(f"{captain_member.mention} {message}")
 
     @commands.command(name="gp")
     async def give_points(self, ctx: commands.Context, member: discord.Member, point_count: int = 1):
@@ -46,19 +101,26 @@ class PugPoints(commands.Cog):
             captain_record_id = pug_captain["id"]
 
         self.pug_point_transactions.insert(
-            {"Transaction Time": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S.%fZ"), "Point Count": point_count,
+            {"Transaction Time": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
+             "Lasts Until": (datetime.utcnow() + timedelta(weeks=4)).strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
+             "Point Count": point_count,
              "Captain": [captain_record_id]})
-        point_count = self.get_user_points(member.id)
-        await ctx.send(f"{member.display_name} now has {point_count} ScrimBux")
+
+        new_point_count = self.look_up_user_points(member.id)
+        await ctx.send(f"{member.display_name} now has {new_point_count} ScrimBux")
+
+        role_messages = await self.award_roles(member, new_point_count)
+        for message in role_messages:
+            await ctx.send(f"{member.mention} {message}")
 
     @commands.command()
     async def balance(self, ctx: commands.Context, member: Optional[discord.Member] = None):
         await ctx.trigger_typing()
         if member:
-            point_count = self.get_user_points(member.id)
+            point_count = self.look_up_user_points(member.id)
             await ctx.send(f"{member.display_name} has {point_count} ScrimBux")
         else:
-            point_count = self.get_user_points(ctx.author.id)
+            point_count = self.look_up_user_points(ctx.author.id)
             await ctx.send(f"You have {point_count} ScrimBux")
 
     @give_points.error

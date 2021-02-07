@@ -405,5 +405,30 @@
       384263789198966784,
       735472913431527584
     ]
+  },
+  "pug_points": {
+    "airtable_base": "appe8egViAFnNP9nX",
+    "notification_channel_id": 652244132319985715,
+    "target_guild": 249222991395684354,
+    "allowed_roles": [
+      734418123544985652
+    ],
+    "rewards": [
+      {
+        "name": "Starter Captain",
+        "role_id": 808019869055320106,
+        "required_points": 5
+      },
+      {
+        "name": "Super Captain",
+        "role_id": 808018730017620029,
+        "required_points": 10
+      },
+      {
+        "name": "Epic Captain",
+        "role_id": 808018837979004978,
+        "required_points": 20
+      }
+    ]
   }
 }

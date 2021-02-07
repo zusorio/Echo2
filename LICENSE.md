@@ -1,5 +1,5 @@
     Echo 2 Bot
-    Copyright (C) 2020  Tobias Messner
+    Copyright (C) 2021  Tobias Messner
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as

@@ -8,7 +8,7 @@ import logging
 from discord_handler import DiscordHandler
 from cogs import clean_old_messages, ping_for_messages, disable_reacts, vet_ping_unofficials, purge_channel, \
     reacts_required, delete_match_regex, initialize, warn_wrong_battletags, auto_question_answer, announce, \
-    alert_unofficial_start, analytics, most_active, jts_bnets, jts_lock
+    alert_unofficial_start, analytics, most_active, jts_bnets, jts_lock, pug_points
 
 sentry_sdk.init(
     "https://e5ceb20bb7f14c9bb04dcd723b83c559@o480512.ingest.sentry.io/5527831",
@@ -45,8 +45,12 @@ def main():
     webhook_handler.setFormatter(format)
     log.addHandler(webhook_handler)
 
+    intents = discord.Intents.all()
+    intents.typing = True
+    intents.presences = True
+
     # Initialize bot object
-    bot = commands.Bot(command_prefix=config.bot_prefix)
+    bot = commands.Bot(command_prefix=config.bot_prefix, intents=intents)
 
     # Load cogs
     bot.add_cog(clean_old_messages.CleanOldMessages(bot, config, log))
@@ -64,6 +68,7 @@ def main():
     bot.add_cog(most_active.MostActive(bot, config, log, credentials.airtable_api_key))
     bot.add_cog(jts_bnets.JTSBnets(bot, config, log))
     bot.add_cog(jts_lock.JTSLock(bot, config, log))
+    bot.add_cog(pug_points.PugPoints(bot, config, log, credentials.airtable_api_key))
     bot.add_cog(initialize.Initialize(bot, config, log))
 
     # Start bot

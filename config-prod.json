@@ -408,10 +408,13 @@
   },
   "pug_points": {
     "airtable_base": "appe8egViAFnNP9nX",
-    "notification_channel_id": 652244132319985715,
-    "target_guild": 249222991395684354,
+    "notification_channel_id": 808020591328100361,
+    "target_guild": 352681852961685524,
     "allowed_roles": [
-      734418123544985652
+      714998656532611113,
+      714998657367146622,
+      714998659418292285,
+      714998655198822410
     ],
     "rewards": [
       {

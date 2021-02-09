@@ -134,8 +134,9 @@ class PugPoints(commands.Cog):
             point_count = self.calculate_user_points([point_transaction for point_transaction in point_transactions if
                                                       point_transaction["fields"]["Captain"] == [captain["id"]]])
             captain_member = role_guild.get_member(int(captain["fields"]["User ID"]))
-            players.append({"points": point_count, "mention": captain_member.mention})
-        sorted_players = sorted(players, key=lambda k: k["points"])
+            if point_count > 0:
+                players.append({"points": point_count, "mention": captain_member.mention})
+        sorted_players = reversed(sorted(players, key=lambda k: k["points"]))
         sorted_players = sorted_players[:10]
         sorted_players_text = ""
         for count, player in enumerate(sorted_players):

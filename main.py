@@ -50,7 +50,7 @@ def main():
     intents.presences = True
 
     # Initialize bot object
-    bot = commands.Bot(command_prefix=config.bot_prefix, intents=intents)
+    bot = commands.Bot(command_prefix=config.bot_prefix, intents=intents, help_command=None)
 
     # Load cogs
     bot.add_cog(clean_old_messages.CleanOldMessages(bot, config, log))

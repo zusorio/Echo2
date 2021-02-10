@@ -1,8 +1,8 @@
+import asyncio
 import logging
 from datetime import datetime, timedelta
 from typing import Optional
 
-import asyncio
 import discord
 import discord.utils
 from airtable import Airtable
@@ -149,13 +149,13 @@ class PugPoints(commands.Cog):
     async def give_points_error(self, ctx: commands.Context, error):
         self.log.warning(f"Got {error}")
         await ctx.send(
-            "Got an error while trying to run that command! Make sure to do `%gp @SomeUser#1234` or `%gp @SomeUser#1234 AMOUNT_HERE`")
+            f"Got an error while trying to run that command! Make sure to do `{self.config.bot_prefix}gp @SomeUser#1234` or `{self.config.bot_prefix}gp @SomeUser#1234 AMOUNT_HERE`")
 
     @balance.error
     async def balance_error(self, ctx: commands.Context, error):
         self.log.warning(f"Got {error}")
         await ctx.send(
-            "Got an error while trying to run that command! Make sure to do `%balance` or `%balance SomeUser#1234`")
+            f"Got an error while trying to run that command! Make sure to do `{self.config.bot_prefix}balance` or `{self.config.bot_prefix}balance SomeUser#1234`")
 
     @leaderboard.error
     async def leaderboard_error(self, ctx: commands.Context, error):

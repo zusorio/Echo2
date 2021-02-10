@@ -30,7 +30,7 @@ class Help(commands.Cog):
             region_channel = self.bot.get_channel(region["command_channel_id"])
             permissions_in_region_channel = ctx.author.permissions_in(region_channel)
             if permissions_in_region_channel.read_messages and permissions_in_region_channel.send_messages:
-                embed.add_field(name=f"{self.config.bot_prefix}ping - For PUG Veterans only",
+                embed.add_field(name=f"{self.config.bot_prefix}ping - For Staff only",
                                 value=f"`{self.config.bot_prefix}ping eu Need some more people for PUGs`\n"
                                       f"Ping the Unofficial role in the EU channel with your message\n",
                                 inline=False)

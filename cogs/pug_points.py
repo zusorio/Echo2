@@ -149,13 +149,13 @@ class PugPoints(commands.Cog):
     async def give_points_error(self, ctx: commands.Context, error):
         self.log.warning(f"Got {error}")
         await ctx.send(
-            "Got an error while trying to run that command! Make sure to do `!give_points @SomeUser#1234` or `!give_points @SomeUser#1234 AMOUNT_HERE`")
+            "Got an error while trying to run that command! Make sure to do `%gp @SomeUser#1234` or `%gp @SomeUser#1234 AMOUNT_HERE`")
 
     @balance.error
     async def balance_error(self, ctx: commands.Context, error):
         self.log.warning(f"Got {error}")
         await ctx.send(
-            "Got an error while trying to run that command! Make sure to do `!balance` or `!balance SomeUser#1234`")
+            "Got an error while trying to run that command! Make sure to do `%balance` or `%balance SomeUser#1234`")
 
     @leaderboard.error
     async def leaderboard_error(self, ctx: commands.Context, error):

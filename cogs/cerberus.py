@@ -21,6 +21,7 @@ class Cerberus(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_remove(self, member: discord.Member):
+        self.log.info(f"Account {member.name}#{member.discriminator} created at {member.created_at}")
         if datetime.utcnow() - member.created_at < timedelta(seconds=self.config.cerberus["warn_max_time_seconds"]):
             account_age_text = humanfriendly.format_timespan(datetime.utcnow() - member.created_at)
             log_channel = self.bot.get_channel(self.config.cerberus["log_channel_id"])

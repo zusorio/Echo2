@@ -433,5 +433,10 @@
         "required_points": 20
       }
     ]
+  },
+  "cerberus": {
+    "log_channel_id": 812822827240521788,
+    "comment": "604800 seconds = 1 week",
+    "warn_max_time_seconds": 604800
   }
 }

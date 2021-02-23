@@ -27,7 +27,9 @@ class Cerberus(commands.Cog):
             log_channel = self.bot.get_channel(self.config.cerberus["log_channel_id"])
             embed = discord.Embed(title=f"Found suspicious new Member {member.name}#{member.discriminator}",
                                   description=f"Their account was created {account_age_text} ago")
-            embed.set_author(name=member.display_name, icon_url=member.avatar_url)
+            embed.add_field(name="ID", value=member.id, inline=True)
+            embed.add_field(name="Clickable", value=member.mention, inline=True)
+            embed.set_thumbnail(url=member.avatar_url)
             embed.set_footer(text="Cerberus by Echo",
                              icon_url="https://cdn.discordapp.com/app-icons/581523092363411493/9f85d39eb6321ad12b2d13396c4595f5.png?size=256")
             await log_channel.send(embed=embed)

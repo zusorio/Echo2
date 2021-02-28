@@ -114,7 +114,8 @@ class Announce(commands.Cog):
 
                 announce_channel = self.bot.get_channel(pug_type["announce_channel"])
 
-                await announce_channel.send(pug_template_content)
-
+                message = await announce_channel.send(pug_template_content)
+                if message.channel.is_news():
+                    await message.publish()
                 # Update the table that we've done the reminder
                 self.pug_list.update(pug["id"], {"Was Announced": True})

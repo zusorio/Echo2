@@ -39,4 +39,6 @@ class AlertUnofficialStart(commands.Cog):
                         embed.add_field(name="I can't see the channel", value=f"Go to <#718355765517090848> and give yourself the PUG role", inline=True)
                         embed.add_field(name="The message is gone!", value=f"We periodically delete old messages. Feel free to make a new post though!", inline=True)
                         embed.set_author(name=message.author.display_name, icon_url=message.author.avatar_url)
-                        await channel.send(embed=embed)
+                        message = await channel.send(embed=embed)
+                        if message.channel.is_news():
+                            await message.publish()

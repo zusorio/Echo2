@@ -76,7 +76,6 @@ class PugPoints(commands.Cog):
                                                       point_transaction["fields"]["Captain"] == [captain["id"]]])
             captain_member = role_guild.get_member(int(captain["fields"]["User ID"]))
             if not captain_member:
-                self.log.warning(f"Captain ID {captain['fields']['User ID']} is malformed")
                 continue
             role_messages = await self.award_roles(captain_member, point_count)
             for message in role_messages:

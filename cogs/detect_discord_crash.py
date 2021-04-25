@@ -4,12 +4,49 @@ import random
 import string
 import subprocess
 
+import functools
+import asyncio
+from concurrent.futures import ThreadPoolExecutor
 import discord
 import wget
 from discord.ext import commands
 from ffprobe import FFProbe
 
 import helpers
+
+
+def analyze_video(url):
+    is_crash_gif = False
+    vid_id = ''.join([random.choice(string.ascii_lowercase) for _ in range(10)])
+    name = wget.download(url, out=f"temp_vids/{vid_id}")
+    subprocess.run(
+        ['ffmpeg', '-i', name, '-vframes', '1', '-q:v', '1', f'temp_vids/{vid_id}_first.jpg'],
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+    subprocess.run(
+        ['ffmpeg', '-sseof', '-3', '-i', name, '-update', '1', '-q:v', '1', f'temp_vids/{vid_id}_last.jpg'],
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+
+    first_data = FFProbe(f'temp_vids/{vid_id}_first.jpg')
+    first_codec = first_data.streams[0].pixel_format()
+    last_data = FFProbe(f'temp_vids/{vid_id}_last.jpg')
+    last_codec = last_data.streams[0].pixel_format()
+
+    if first_codec == "yuvj420p" and last_codec == "yuvj444p":
+        is_crash_gif = True
+
+    frame_size_detect_message = subprocess.run(
+        ['ffprobe', '-v', 'error', '-show_entries', 'frame=width,height', '-select_streams', 'v', '-of',
+         'csv=p=0', name],
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+
+    if len(set(frame_size_detect_message.stdout.split("\n"))) > 1:
+        is_crash_gif = True
+
+    # Delete old
+    os.remove(name)
+    os.remove(f'temp_vids/{vid_id}_first.jpg')
+    os.remove(f'temp_vids/{vid_id}_last.jpg')
+    return is_crash_gif
 
 
 class DetectDiscordCrash(commands.Cog):
@@ -28,34 +65,9 @@ class DetectDiscordCrash(commands.Cog):
         for embed in message.embeds:
             if not embed.video or "gfycat.com" not in embed.video.url:
                 continue
-            self.log.warning(
-                f"Scanning Message with content {message.content} posted by {message.author.id} for crash")
-            is_crash_gif = False
-            vid_id = ''.join([random.choice(string.ascii_lowercase) for _ in range(10)])
-            name = wget.download(embed.video.url, out=f"temp_vids/{vid_id}")
-            subprocess.run(
-                ['ffmpeg', '-i', name, '-vframes', '1', '-q:v', '1', f'temp_vids/{vid_id}_first.jpg'],
-                stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
-            subprocess.run(
-                ['ffmpeg', '-sseof', '-3', '-i', name, '-update', '1', '-q:v', '1', f'temp_vids/{vid_id}_last.jpg'],
-                stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
 
-            first_data = FFProbe(f'temp_vids/{vid_id}_first.jpg')
-            first_codec = first_data.streams[0].pixel_format()
-            last_data = FFProbe(f'temp_vids/{vid_id}_last.jpg')
-            last_codec = last_data.streams[0].pixel_format()
-
-            if first_codec == "yuvj420p" and last_codec == "yuvj444p":
-                is_crash_gif = True
-
-            frame_size_detect_message = subprocess.run(
-                ['ffprobe', '-v', 'error', '-show_entries', 'frame=width,height', '-select_streams', 'v', '-of',
-                 'csv=p=0', name],
-                stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
-
-            if len(set(frame_size_detect_message.stdout.split("\n"))) > 1:
-                is_crash_gif = True
-
+            loop = asyncio.get_event_loop()
+            is_crash_gif = await loop.run_in_executor(ThreadPoolExecutor(), functools.partial(analyze_video, url=embed.video.url))
             if is_crash_gif:
                 await message.delete()
                 channel: discord.TextChannel = await self.bot.fetch_channel(
@@ -71,8 +83,3 @@ class DetectDiscordCrash(commands.Cog):
                 self.log.warning(
                     f"Scan is clean for message with content {message.content} posted by {message.author.id} for crash")
 
-            # Delete old
-            os.remove(name)
-            os.remove(f'temp_vids/{vid_id}_first.jpg')
-            os.remove(f'temp_vids/{vid_id}_last.jpg')
-            self.log.info(f"Deleted video with {vid_id}")

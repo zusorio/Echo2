@@ -65,7 +65,8 @@ class DetectDiscordCrash(commands.Cog):
         for embed in message.embeds:
             if not embed.video or "gfycat.com" not in embed.video.url:
                 continue
-
+            self.log.warning(
+                f"Scanning Message with content {message.content} posted by {message.author.id} for crash")
             loop = asyncio.get_event_loop()
             is_crash_gif = await loop.run_in_executor(ThreadPoolExecutor(), functools.partial(analyze_video, url=embed.video.url))
             if is_crash_gif:

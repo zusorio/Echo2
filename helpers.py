@@ -32,6 +32,7 @@ class Config:
         self.jts_lock = self.config_object["jts_lock"]
         self.pug_points = self.config_object["pug_points"]
         self.cerberus = self.config_object["cerberus"]
+        self.detect_discord_crash = self.config_object["detect_discord_crash"]
 
 
 class Credentials:

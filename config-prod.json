@@ -438,5 +438,8 @@
     "log_channel_id": 812822827240521788,
     "comment": "604800 seconds = 1 week",
     "warn_max_time_seconds": 604800
+  },
+  "detect_discord_crash": {
+    "log_channel_id": 434749885338877952
   }
 }

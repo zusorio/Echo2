@@ -16,9 +16,23 @@ import helpers
 
 
 def analyze_video(url):
-    is_crash_gif = False
+    # Choose name for video and download it
     vid_id = ''.join([random.choice(string.ascii_lowercase) for _ in range(10)])
     name = wget.download(url, out=f"temp_vids/{vid_id}")
+
+    # Use FFProbe to detect sizes of frames
+    frame_size_detect_message = subprocess.run(
+        ['ffprobe', '-v', 'error', '-show_entries', 'frame=width,height', '-select_streams', 'v', '-of',
+         'csv=p=0', name],
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+
+    # If frame sizes changes it is a crash gif
+    if len(set(frame_size_detect_message.stdout.split("\n"))) > 1:
+        # Delete the downloaded video
+        os.remove(name)
+        return True
+
+    # Create jpg of first and last frame
     subprocess.run(
         ['ffmpeg', '-i', name, '-vframes', '1', '-q:v', '1', f'temp_vids/{vid_id}_first.jpg'],
         stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
@@ -26,27 +40,21 @@ def analyze_video(url):
         ['ffmpeg', '-sseof', '-3', '-i', name, '-update', '1', '-q:v', '1', f'temp_vids/{vid_id}_last.jpg'],
         stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
 
+    # Analyze codec of frames
     first_data = FFProbe(f'temp_vids/{vid_id}_first.jpg')
     first_codec = first_data.streams[0].pixel_format()
     last_data = FFProbe(f'temp_vids/{vid_id}_last.jpg')
     last_codec = last_data.streams[0].pixel_format()
 
+    # If codecs changes it is a crash gif
     if first_codec == "yuvj420p" and last_codec == "yuvj444p":
-        is_crash_gif = True
+        # Delete the downloaded video and the frames
+        os.remove(name)
+        os.remove(f'temp_vids/{vid_id}_first.jpg')
+        os.remove(f'temp_vids/{vid_id}_last.jpg')
+        return True
 
-    frame_size_detect_message = subprocess.run(
-        ['ffprobe', '-v', 'error', '-show_entries', 'frame=width,height', '-select_streams', 'v', '-of',
-         'csv=p=0', name],
-        stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
-
-    if len(set(frame_size_detect_message.stdout.split("\n"))) > 1:
-        is_crash_gif = True
-
-    # Delete old
-    os.remove(name)
-    os.remove(f'temp_vids/{vid_id}_first.jpg')
-    os.remove(f'temp_vids/{vid_id}_last.jpg')
-    return is_crash_gif
+    return False
 
 
 class DetectDiscordCrash(commands.Cog):

@@ -74,7 +74,7 @@ class DetectDiscordCrash(commands.Cog):
             if not embed.video or "gfycat.com" not in embed.video.url:
                 continue
             self.log.warning(
-                f"Scanning Message with content {message.content} posted by {message.author.id} for crash")
+                f"Scanning Message with content {message.content} posted by {message.author.id} in {message.channel.id} for crash")
             loop = asyncio.get_event_loop()
             is_crash_gif = await loop.run_in_executor(ThreadPoolExecutor(), functools.partial(analyze_video, url=embed.video.url))
             if is_crash_gif:
@@ -82,13 +82,13 @@ class DetectDiscordCrash(commands.Cog):
                 channel: discord.TextChannel = await self.bot.fetch_channel(
                     self.config.detect_discord_crash["log_channel_id"])
                 embed = discord.Embed(title="Deleted crashing GIF",
-                                      description=f"Deleted crashing GIF posted by <@{message.author.id}> ({message.author.id})\nContent is: `{message.content}`",
+                                      description=f"Deleted crashing GIF posted by <@{message.author.id}> ({message.author.id}) in <#{message.channel.id}>\nContent is: `{message.content}`",
                                       colour=0xFF0B03)
                 embed.set_footer(text="Cerberus by Echo",
                                  icon_url="https://cdn.discordapp.com/app-icons/581523092363411493/9f85d39eb6321ad12b2d13396c4595f5.png?size=256")
                 await channel.send(embed=embed)
-                self.log.warning(f"Deleted crashing GIF by {message.author.id}, message was {message.content}")
+                self.log.warning(f"Deleted crashing GIF by {message.author.id} in {message.channel.id}, message was {message.content}")
             else:
                 self.log.warning(
-                    f"Scan is clean for message with content {message.content} posted by {message.author.id} for crash")
+                    f"Scan is clean for message with content {message.content} posted by {message.author.id} in {message.channel.id} for crash")
 

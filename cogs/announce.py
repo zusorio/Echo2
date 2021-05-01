@@ -36,9 +36,10 @@ class Announce(commands.Cog):
             for required_field in required_fields:
                 if not fields.get(required_field):
                     is_valid = False
-            # If there is no announcement no action is required and the row is marked as invalid
+
+            # If there is no announcement no action is required and we continue
             if fields.get("Auto Remind") is not True and fields.get("Auto Announce") is not True:
-                is_valid = False
+                continue
 
             # If the row is invalid ignore it
             if not is_valid:

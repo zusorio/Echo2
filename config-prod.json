@@ -201,7 +201,7 @@
         "match": "(pug(s?) today)|(when.{1,15}pug)|(schedule)|(next.{1,15}pug)|(time.{1,15}pugs)|(pugs.{1,20}now)",
         "title": "When do pugs happen?",
         "description": "Pugs happen 4 days a week, to find out when pugs happen next check our <#718603209387540602>. Here's an overview:",
-        "image": "https://i.imgur.com/DLRPSd3.png"
+        "image": "https://i.imgur.com/oc8Kwz5.png"
       },
       {
         "match": "(how.{0,15}join)",
@@ -288,6 +288,16 @@
         "reminder_channel": 717850176089358377,
         "reminder_role": 717864248818008084,
         "announce_channel": 735139991675469885
+      },
+      "EU VALORANT": {
+        "reminder_channel": 717850176089358377,
+        "reminder_role": 743197198438891542,
+        "announce_channel": 743199276284510228
+      },
+      "EU VALORANT Reminder": {
+        "reminder_channel": 717850176089358377,
+        "reminder_role": 743197198438891542,
+        "announce_channel": 743199276284510228
       }
     }
   },

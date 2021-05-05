@@ -32,7 +32,7 @@ class Announce(commands.Cog):
             is_valid = True
 
             # All these fields need to be present, else mark as invalid
-            required_fields = ["Time (in GMT)", "Type", "Announce Template", "Remind x before"]
+            required_fields = ["Time (in GMT)", "Type", "Announce Template"]
             for required_field in required_fields:
                 if not fields.get(required_field):
                     is_valid = False

@@ -44,7 +44,9 @@ class Initialize(commands.Cog):
             "Scrims",
             "e-Sports",
             "eSports",
-            "self-isolation"
+            "self-isolation",
+            "with Bricks",
+            "Raze"
         ]
         selected_game = random.choice(presence_games)
         await self.bot.change_presence(activity=discord.Game(selected_game))

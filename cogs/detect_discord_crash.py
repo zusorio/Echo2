@@ -27,7 +27,7 @@ def analyze_video(url):
         stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
 
     # If frame sizes changes it is a crash gif
-    if len(set(frame_size_detect_message.stdout.split("\n"))) > 1:
+    if len(set(filter(None, frame_size_detect_message.stdout.split("\n")))) > 1:
         # Delete the downloaded video
         os.remove(name)
         return True

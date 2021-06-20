@@ -1,4 +1,5 @@
 import logging
+import re
 from datetime import timedelta, datetime
 
 import discord
@@ -43,6 +44,21 @@ class Cerberus(commands.Cog):
             embed.add_field(name="ID", value=member.id, inline=True)
             embed.add_field(name="Clickable", value=member.mention, inline=True)
             embed.set_thumbnail(url=member.avatar_url)
+            embed.set_footer(text="Cerberus by Echo",
+                             icon_url="https://cdn.discordapp.com/app-icons/581523092363411493/9f85d39eb6321ad12b2d13396c4595f5.png?size=256")
+            await log_channel.send(embed=embed)
+
+    @commands.Cog.listener()
+    async def on_message(self, message: discord.Message):
+        if re.search(r"\.ru(?:[:\/]|$|\W)", message.content):
+            account_age_text = humanfriendly.format_timespan(datetime.utcnow() - message.author.created_at)
+            log_channel = self.bot.get_channel(self.config.cerberus["log_channel_id"])
+            embed = discord.Embed(title=f"Found message with suspicious TLD .ru by {message.author.name}#{message.author.discriminator}",
+                                  description=message.content, color=0xFE0B00)
+            embed.add_field(name="ID", value=message.author.id, inline=True)
+            embed.add_field(name="Account created", value=f"{account_age_text} ago", inline=True)
+            embed.add_field(name="Message Link", value=message.jump_url, inline=False)
+            embed.set_thumbnail(url=message.author.avatar_url)
             embed.set_footer(text="Cerberus by Echo",
                              icon_url="https://cdn.discordapp.com/app-icons/581523092363411493/9f85d39eb6321ad12b2d13396c4595f5.png?size=256")
             await log_channel.send(embed=embed)

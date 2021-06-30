@@ -3,6 +3,7 @@ import logging
 import discord
 import humanfriendly
 from discord.ext import commands, tasks
+# TODO: Migrate this to async airtable
 from airtable import Airtable
 from datetime import datetime, timedelta, tzinfo
 

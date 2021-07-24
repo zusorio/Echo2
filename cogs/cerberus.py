@@ -1,4 +1,5 @@
 import logging
+import re
 from collections import deque
 from datetime import timedelta, datetime
 
@@ -54,12 +55,20 @@ class Cerberus(commands.Cog):
         self.recent_messages.appendleft(message)
         similar_message_count = len(set([recent_message.channel.id for recent_message in self.recent_messages if
                                          recent_message.author.id == message.author.id and recent_message.content == message.content]))
+
+        is_mod = message.author.guild_permissions.manage_messages
         if similar_message_count > 5:
             account_age_text = humanfriendly.format_timespan(datetime.utcnow() - message.author.created_at)
             log_channel = self.bot.get_channel(self.config.cerberus["log_channel_id"])
-            embed = discord.Embed(
-                title=f"Found duplicate messages by {message.author.name}#{message.author.discriminator}",
-                description=message.content, color=0xFE0B00)
+            if re.search(r"\.ru(?:[:\/]|$|\W)", message.content) and not is_mod:
+                await message.author.ban(reason="Automatic Ban by Cerberus")
+                embed = discord.Embed(
+                    title=f"Automatically banned Spam Bot {message.author.name}#{message.author.discriminator}",
+                    description=message.content, color=0xFE0B00)
+            else:
+                embed = discord.Embed(
+                    title=f"Found duplicate messages by {message.author.name}#{message.author.discriminator}",
+                    description=message.content, color=0xFE0B00)
             embed.add_field(name="ID", value=message.author.id, inline=True)
             embed.add_field(name="Account created", value=f"{account_age_text} ago", inline=True)
             embed.add_field(name="Message Link", value=message.jump_url, inline=False)

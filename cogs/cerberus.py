@@ -1,5 +1,5 @@
 import logging
-import re
+from collections import deque
 from datetime import timedelta, datetime
 
 import discord
@@ -19,6 +19,7 @@ class Cerberus(commands.Cog):
         self.config = config
         self.log = log
         self.log.info("Loaded Cog Cerberus")
+        self.recent_messages = deque([], maxlen=100)
 
     @commands.Cog.listener()
     async def on_member_join(self, member: discord.Member):
@@ -50,11 +51,15 @@ class Cerberus(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
-        if re.search(r"\.ru(?:[:\/]|$|\W)", message.content):
+        self.recent_messages.appendleft(message)
+        similar_message_count = len(set([recent_message.channel.id for recent_message in self.recent_messages if
+                                         recent_message.author.id == message.author.id and recent_message.content == message.content]))
+        if similar_message_count > 5:
             account_age_text = humanfriendly.format_timespan(datetime.utcnow() - message.author.created_at)
             log_channel = self.bot.get_channel(self.config.cerberus["log_channel_id"])
-            embed = discord.Embed(title=f"Found message with suspicious TLD .ru by {message.author.name}#{message.author.discriminator}",
-                                  description=message.content, color=0xFE0B00)
+            embed = discord.Embed(
+                title=f"Found duplicate messages by {message.author.name}#{message.author.discriminator}",
+                description=message.content, color=0xFE0B00)
             embed.add_field(name="ID", value=message.author.id, inline=True)
             embed.add_field(name="Account created", value=f"{account_age_text} ago", inline=True)
             embed.add_field(name="Message Link", value=message.jump_url, inline=False)

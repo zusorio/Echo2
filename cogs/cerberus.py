@@ -2,12 +2,23 @@ import logging
 import re
 from collections import deque
 from datetime import timedelta, datetime
+from urllib.parse import urlparse
 
+import aiohttp
 import discord
 import humanfriendly
 from discord.ext import commands
 
 import helpers
+
+
+async def check_is_russian_host(domain):
+    async with aiohttp.ClientSession() as session:
+        async with session.get(f"http://ip-api.com/json/{domain}") as r:
+            if r.status == 200:
+                data = await r.json()
+                return data.get("country") == "Russia"
+            return False
 
 
 class Cerberus(commands.Cog):
@@ -52,6 +63,8 @@ class Cerberus(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
+        if message.author.bot:
+            return
         self.recent_messages.appendleft(message)
         similar_message_count = len(set([recent_message.channel.id for recent_message in self.recent_messages if
                                          recent_message.author.id == message.author.id and recent_message.content == message.content]))
@@ -60,7 +73,18 @@ class Cerberus(commands.Cog):
         if similar_message_count > 5:
             account_age_text = humanfriendly.format_timespan(datetime.utcnow() - message.author.created_at)
             log_channel = self.bot.get_channel(self.config.cerberus["log_channel_id"])
-            if re.search(r"\.ru(?:[:\/]|$|\W)", message.content) and not is_mod:
+
+            regex = r"\b((?:https?://)?(?:(?:www\.)?(?:[\da-z\.-]+)\.(?:[a-z]{2,6})|(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|(?:(?:[0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|(?:[0-9a-fA-F]{1,4}:){1,7}:|(?:[0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|(?:[0-9a-fA-F]{1,4}:){1,5}(?::[0-9a-fA-F]{1,4}){1,2}|(?:[0-9a-fA-F]{1,4}:){1,4}(?::[0-9a-fA-F]{1,4}){1,3}|(?:[0-9a-fA-F]{1,4}:){1,3}(?::[0-9a-fA-F]{1,4}){1,4}|(?:[0-9a-fA-F]{1,4}:){1,2}(?::[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:(?:(?::[0-9a-fA-F]{1,4}){1,6})|:(?:(?::[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(?::[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(?:ffff(?::0{1,4}){0,1}:){0,1}(?:(?:25[0-5]|(?:2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(?:25[0-5]|(?:2[0-4]|1{0,1}[0-9]){0,1}[0-9])|(?:[0-9a-fA-F]{1,4}:){1,4}:(?:(?:25[0-5]|(?:2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(?:25[0-5]|(?:2[0-4]|1{0,1}[0-9]){0,1}[0-9])))(?::[0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])?(?:/[\w\.-]*)*/?)\b"
+            urls_in_message = re.findall(regex, message.content)
+
+            found_russian_domain = False
+            for url in urls_in_message:
+                domain = urlparse(url).netloc
+                if await check_is_russian_host(domain):
+                    found_russian_domain = True
+                    break
+
+            if found_russian_domain and not is_mod:
                 await message.author.ban(reason="Automatic Ban by Cerberus")
                 embed = discord.Embed(
                     title=f"Automatically banned Spam Bot {message.author.name}#{message.author.discriminator}",

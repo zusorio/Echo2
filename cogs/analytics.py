@@ -27,6 +27,7 @@ class Analytics(commands.Cog):
             pug_list = await base.get_table("PUG List", key="name")
 
             if after.channel and after.channel.id in self.config.analytics["pug_voice_channels"]:
+                # TODO: There is no way this code works, filter doesn't exist in airbase. Fix this before reenabling
                 active_pug = await pug_list.get_records(view="Bot View",
                                                         filter_by_formula="AND(IS_AFTER(NOW(), {Time (in GMT)}), {Was Announced} = TRUE())")
                 pug_participant = await pug_participants.get_records(view="Grid view",

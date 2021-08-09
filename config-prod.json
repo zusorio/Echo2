@@ -450,6 +450,12 @@
       "log_channel_id": 812822827240521788,
       "comment": "604800 seconds = 1 week",
       "warn_max_time_seconds": 604800
+    },
+    {
+      "guild_id": 570672959799164958,
+      "log_channel_id": 874311747580882974,
+      "comment": "604800 seconds = 1 week",
+      "warn_max_time_seconds": 604800
     }
   ],
   "detect_discord_crash": {
